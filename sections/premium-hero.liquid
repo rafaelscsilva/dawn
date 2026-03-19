@@ -1,0 +1,101 @@
+{% liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign eyebrow = section.settings.eyebrow
+  assign primary_label = section.settings.primary_label
+  assign primary_link = section.settings.primary_link
+  assign secondary_label = section.settings.secondary_label
+  assign secondary_link = section.settings.secondary_link
+  assign badge_text = section.settings.badge_text
+  assign meta_one = section.settings.meta_one
+  assign meta_two = section.settings.meta_two
+  assign meta_three = section.settings.meta_three
+%}
+
+<div class="premium-section page-width">
+  <div class="premium-hero color-{{ section.settings.color_scheme }}">
+    <div class="premium-hero__copy">
+      {% if eyebrow != blank %}
+        <div class="premium-hero__eyebrow">
+          <span class="svg-wrapper">{{ 'icon-fire.svg' | inline_asset_content }}</span>
+          <span>{{ eyebrow }}</span>
+        </div>
+      {% endif %}
+
+      <h1 class="h0">{{ heading }}</h1>
+      {% if subheading != blank %}
+        <p class="premium-subtext">{{ subheading }}</p>
+      {% endif %}
+
+      <div class="premium-cta-row">
+        {% if primary_label != blank and primary_link != blank %}
+          <a class="button button--primary-premium" href="{{ primary_link }}">{{ primary_label }}</a>
+        {% endif %}
+        {% if secondary_label != blank and secondary_link != blank %}
+          <a class="button button--ghost-premium" href="{{ secondary_link }}">{{ secondary_label }}</a>
+        {% endif %}
+        {% if badge_text != blank %}
+          <span class="premium-badge">
+            <span class="svg-wrapper">{{ 'icon-checkmark.svg' | inline_asset_content }}</span>
+            {{ badge_text }}
+          </span>
+        {% endif %}
+      </div>
+
+      <div class="premium-hero__meta">
+        {% if meta_one != blank %}<div class="premium-subtext">{{ meta_one }}</div>{% endif %}
+        {% if meta_two != blank %}<div class="premium-subtext">{{ meta_two }}</div>{% endif %}
+        {% if meta_three != blank %}<div class="premium-subtext">{{ meta_three }}</div>{% endif %}
+      </div>
+    </div>
+
+    <div class="premium-hero__image">
+      {% if section.settings.image != blank %}
+        <picture>
+          <source srcset="{{ section.settings.image | image_url: width: 1400 }}" media="(min-width: 990px)">
+          <img
+            src="{{ section.settings.image | image_url: width: 900 }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            loading="lazy"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+          >
+        </picture>
+      {% else %}
+        <div style="padding: 46% 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), transparent 30%), #0f1115;"></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Premium hero",
+  "settings": [
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Next-gen smart living"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Upgrade your home. Elevate your health."},
+    {"type": "textarea", "id": "subheading", "label": "Subheading", "default": "Curated smart home devices and wellness tech designed to simplify your day and help you feel your best."},
+    {"type": "text", "id": "primary_label", "label": "Primary CTA label", "default": "Shop now"},
+    {"type": "url", "id": "primary_link", "label": "Primary CTA link"},
+    {"type": "text", "id": "secondary_label", "label": "Secondary CTA label", "default": "Explore collections"},
+    {"type": "url", "id": "secondary_link", "label": "Secondary CTA link"},
+    {"type": "text", "id": "badge_text", "label": "Badge text", "default": "Trusted by 10,000+ customers"},
+    {"type": "text", "id": "meta_one", "label": "Meta line 1", "default": "Free express shipping over $75"},
+    {"type": "text", "id": "meta_two", "label": "Meta line 2", "default": "30-day risk-free trial"},
+    {"type": "text", "id": "meta_three", "label": "Meta line 3", "default": "Expert-backed selections"},
+    {"type": "image_picker", "id": "image", "label": "Hero image"},
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium hero",
+      "category": "Banner"
+    }
+  ]
+}
+{% endschema %}

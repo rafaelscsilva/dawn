@@ -1,0 +1,47 @@
+{% liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+%}
+
+<div class="premium-section page-width">
+  <div class="section-header">
+    {% if heading != blank %}<h2 class="h1">{{ heading }}</h2>{% endif %}
+    {% if subheading != blank %}<p class="premium-subtext">{{ subheading }}</p>{% endif %}
+  </div>
+
+  <div class="benefits-grid">
+    {% for block in section.blocks %}
+      <div class="benefits-card" {{ block.shopify_attributes }}>
+        <div class="benefits-card__icon">
+          <span class="svg-wrapper">{{ block.settings.icon | default: 'icon-checkmark.svg' | inline_asset_content }}</span>
+        </div>
+        <p class="benefits-card__title">{{ block.settings.title }}</p>
+        <p class="benefits-card__text">{{ block.settings.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Benefits grid",
+  "settings": [
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Why customers choose us"},
+    {"type": "textarea", "id": "subheading", "label": "Subheading", "default": "Curated smart tech, wellness gadgets, and everyday upgrades backed by expert testing."}
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {"type": "text", "id": "title", "label": "Title", "default": "Fast, insured delivery"},
+        {"type": "textarea", "id": "text", "label": "Text", "default": "Express shipping with real-time tracking on every order."},
+        {"type": "text", "id": "icon", "label": "Icon asset name", "default": "icon-delivery.svg", "info": "Any uploaded SVG in assets, e.g. icon-delivery.svg"}
+      ]
+    }
+  ],
+  "presets": [
+    {"name": "Benefits grid", "blocks": [{"type": "benefit"}, {"type": "benefit"}, {"type": "benefit"}]}
+  ]
+}
+{% endschema %}

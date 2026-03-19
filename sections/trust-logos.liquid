@@ -1,0 +1,36 @@
+{% liquid
+  assign heading = section.settings.heading
+%}
+<div class="premium-section page-width">
+  {% if heading != blank %}<h3 class="h4" style="text-align:center; color: var(--premium-muted);">{{ heading }}</h3>{% endif %}
+  <div class="trust-logos">
+    {% for block in section.blocks %}
+      {% if block.settings.logo != blank %}
+        <div {{ block.shopify_attributes }}>
+          <img src="{{ block.settings.logo | image_url: width: 220 }}" loading="lazy" alt="{{ block.settings.logo.alt | escape }}">
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust logos",
+  "settings": [
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Featured by leading tech reviewers"}
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {"type": "image_picker", "id": "logo", "label": "Logo"}
+      ]
+    }
+  ],
+  "presets": [
+    {"name": "Trust logos", "blocks": [{"type": "logo"}, {"type": "logo"}, {"type": "logo"}]}
+  ]
+}
+{% endschema %}
