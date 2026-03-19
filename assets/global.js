@@ -1338,8 +1338,8 @@ class CartPerformance {
   const THEME_KEY = 'theme-preference';
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
-  const labelEl = themeToggleBtn ? themeToggleBtn.querySelector('[data-theme-toggle-label]') : null;
-  if (!themeToggleBtn) return;
+  const labelEl = null;
+   if (!themeToggleBtn) return;
 
   const getSystemTheme = () => (prefersDark.matches ? 'dark' : 'light');
   const getStoredTheme = () => {
