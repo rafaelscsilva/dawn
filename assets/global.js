@@ -1335,11 +1335,8 @@ class CartPerformance {
 (function() {
   const body = document.body;
   const THEME_KEY = 'theme-preference';
-  const themeToggleBtn = document.createElement('button');
-  themeToggleBtn.className = 'theme-toggle-btn';
-  themeToggleBtn.title = 'Toggle dark mode';
-  themeToggleBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34l-1.41-1.41m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41"/></svg>';
-  document.body.appendChild(themeToggleBtn);
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  if (!themeToggleBtn) return;
 
   function setThemeClass(theme) {
     body.classList.remove('dark-theme', 'light-theme');
