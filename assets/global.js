@@ -1330,3 +1330,65 @@ class CartPerformance {
     );
   }
 }
+
+// --- Dark theme toggle logic ---
+(function() {
+  const body = document.body;
+  const THEME_KEY = 'theme-preference';
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  if (!themeToggleBtn) return;
+
+  function setThemeClass(theme) {
+    body.classList.remove('dark-theme', 'light-theme');
+    if (theme === 'dark') body.classList.add('dark-theme');
+    if (theme === 'light') body.classList.add('light-theme');
+  }
+
+  function getPreferredTheme() {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+    return 'light';
+  }
+
+  function applyTheme() {
+    setThemeClass(getPreferredTheme());
+  }
+
+  themeToggleBtn.addEventListener('click', function() {
+    const current = getPreferredTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(THEME_KEY, next);
+    setThemeClass(next);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    if (!localStorage.getItem(THEME_KEY)) applyTheme();
+  });
+
+  applyTheme();
+})();
+
+// --- Floating scroll-to-top button ---
+(function() {
+  const scrollBtn = document.createElement('button');
+  scrollBtn.className = 'scroll-to-top-btn';
+  scrollBtn.title = 'Scroll to top';
+  scrollBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/><line x1="12" y1="19" x2="12" y2="9"/></svg>';
+  document.body.appendChild(scrollBtn);
+
+  function toggleScrollBtn() {
+    if (window.scrollY > 200) {
+      scrollBtn.style.display = 'flex';
+    } else {
+      scrollBtn.style.display = 'none';
+    }
+  }
+
+  scrollBtn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', toggleScrollBtn);
+  toggleScrollBtn();
+})();
