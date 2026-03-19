@@ -3603,10 +3603,11 @@ body.light-theme .background-secondary, body.light-theme .content-container, bod
   background: #f7f7f7;
 }
 
-/* --- Floating buttons --- */
-.theme-toggle-btn, .scroll-to-top-btn {
+/* --- Floating scroll-to-top button --- */
+.scroll-to-top-btn {
   position: fixed;
   right: 2rem;
+  bottom: 2rem;
   z-index: 1000;
   border: none;
   border-radius: 50%;
@@ -3619,17 +3620,17 @@ body.light-theme .background-secondary, body.light-theme .content-container, bod
   background: rgb(var(--color-accent));
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
-  opacity: 0.85;
+  transition: background 0.2s, opacity 0.2s, transform 0.2s;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
 }
-.theme-toggle-btn {
-  bottom: 7rem;
+.scroll-to-top-btn.is-visible {
+  opacity: 0.92;
+  pointer-events: auto;
+  transform: translateY(0);
 }
-.scroll-to-top-btn {
-  bottom: 2rem;
-  display: none;
-}
-.theme-toggle-btn:hover, .scroll-to-top-btn:hover {
+.scroll-to-top-btn:hover {
   background: rgb(var(--color-link));
   opacity: 1;
 }

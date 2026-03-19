@@ -1334,54 +1334,61 @@ class CartPerformance {
 // --- Dark theme toggle logic ---
 (function() {
   const body = document.body;
+  const root = document.documentElement;
   const THEME_KEY = 'theme-preference';
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const labelEl = themeToggleBtn ? themeToggleBtn.querySelector('[data-theme-toggle-label]') : null;
   if (!themeToggleBtn) return;
 
-  function setThemeClass(theme) {
-    body.classList.remove('dark-theme', 'light-theme');
-    if (theme === 'dark') body.classList.add('dark-theme');
-    if (theme === 'light') body.classList.add('light-theme');
-  }
-
-  function getPreferredTheme() {
+  const getSystemTheme = () => (prefersDark.matches ? 'dark' : 'light');
+  const getStoredTheme = () => {
     const stored = localStorage.getItem(THEME_KEY);
-    if (stored === 'dark' || stored === 'light') return stored;
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
-    return 'light';
+    return stored === 'dark' || stored === 'light' ? stored : null;
+  };
+  const getActiveTheme = () => getStoredTheme() || getSystemTheme();
+
+  function applyTheme(theme) {
+    const mode = theme === 'dark' ? 'dark' : 'light';
+    root.dataset.theme = mode;
+    body.classList.remove('dark-theme', 'light-theme');
+    body.classList.add(`${mode}-theme`);
+    themeToggleBtn.setAttribute('aria-pressed', mode === 'dark');
+    if (labelEl) labelEl.textContent = mode === 'dark' ? 'Dark' : 'Light';
   }
 
-  function applyTheme() {
-    setThemeClass(getPreferredTheme());
+  function setTheme(theme) {
+    localStorage.setItem(THEME_KEY, theme);
+    applyTheme(theme);
   }
 
   themeToggleBtn.addEventListener('click', function() {
-    const current = getPreferredTheme();
-    const next = current === 'dark' ? 'light' : 'dark';
-    localStorage.setItem(THEME_KEY, next);
-    setThemeClass(next);
+    const next = getActiveTheme() === 'dark' ? 'light' : 'dark';
+    setTheme(next);
   });
 
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    if (!localStorage.getItem(THEME_KEY)) applyTheme();
+  prefersDark.addEventListener('change', function(event) {
+    if (!getStoredTheme()) applyTheme(event.matches ? 'dark' : 'light');
   });
 
-  applyTheme();
+  applyTheme(getActiveTheme());
 })();
 
 // --- Floating scroll-to-top button ---
 (function() {
   const scrollBtn = document.createElement('button');
+  scrollBtn.type = 'button';
   scrollBtn.className = 'scroll-to-top-btn';
   scrollBtn.title = 'Scroll to top';
+  scrollBtn.setAttribute('aria-label', 'Scroll to top');
   scrollBtn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/><line x1="12" y1="19" x2="12" y2="9"/></svg>';
   document.body.appendChild(scrollBtn);
 
   function toggleScrollBtn() {
     if (window.scrollY > 200) {
-      scrollBtn.style.display = 'flex';
+      scrollBtn.classList.add('is-visible');
     } else {
-      scrollBtn.style.display = 'none';
+      scrollBtn.classList.remove('is-visible');
     }
   }
 
@@ -1389,6 +1396,6 @@ class CartPerformance {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  window.addEventListener('scroll', toggleScrollBtn);
+  window.addEventListener('scroll', toggleScrollBtn, { passive: true });
   toggleScrollBtn();
-})();
+ })();
