@@ -1,210 +1,177 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "premium_hero_iR7XeC": {
+      "type": "premium-hero",
+      "name": "Premium hero",
+      "settings": {
+        "eyebrow": "Next-gen smart living",
+        "heading": "Upgrade your home. Elevate your health.",
+        "subheading": "Curated smart home devices and wellness tech designed to simplify your day and help you feel your best.",
+        "primary_label": "Shop now",
+        "primary_link": "",
+        "secondary_label": "Explore collections",
+        "secondary_link": "",
+        "badge_text": "Trusted by 10,000+ customers",
+        "meta_one": "Free express shipping over $75",
+        "meta_two": "30-day risk-free trial",
+        "meta_three": "Expert-backed selections",
+        "color_scheme": ""
+      }
+    },
+    "benefits_grid_THRbWp": {
+      "type": "benefits-grid",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "benefit_93ErQD": {
+          "type": "benefit",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
+            "title": "Fast, insured delivery",
+            "text": "Express shipping with real-time tracking on every order.",
+            "icon": "icon-delivery.svg"
           }
         },
-        "text": {
-          "type": "text",
+        "benefit_dNze8M": {
+          "type": "benefit",
           "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
+            "title": "Fast, insured delivery",
+            "text": "Express shipping with real-time tracking on every order.",
+            "icon": "icon-delivery.svg"
           }
         },
-        "button": {
-          "type": "buttons",
+        "benefit_nxnL3r": {
+          "type": "benefit",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "title": "Fast, insured delivery",
+            "text": "Express shipping with real-time tracking on every order.",
+            "icon": "icon-delivery.svg"
           }
         }
       },
       "block_order": [
-        "heading",
-        "text",
-        "button"
+        "benefit_93ErQD",
+        "benefit_dNze8M",
+        "benefit_nxnL3r"
       ],
+      "name": "Benefits grid",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "heading": "Why customers choose us",
+        "subheading": "Curated smart tech, wellness gadgets, and everyday upgrades backed by expert testing."
       }
     },
-    "rich_text": {
-      "type": "rich-text",
+    "trust_logos_m3RCy4": {
+      "type": "trust-logos",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "logo_DQQKCk": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_D8QczW": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_T6YjfJ": {
+          "type": "logo",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "logo_DQQKCk",
+        "logo_D8QczW",
+        "logo_T6YjfJ"
+      ],
+      "name": "Trust logos",
+      "settings": {
+        "heading": "Featured by leading tech reviewers"
+      }
+    },
+    "testimonials_premium_nJddy9": {
+      "type": "testimonials-premium",
+      "blocks": {
+        "testimonial_jMKy93": {
+          "type": "testimonial",
           "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h1"
+            "name": "Alex R.",
+            "role": "Smart home enthusiast",
+            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
           }
         },
-        "text": {
-          "type": "text",
+        "testimonial_69U9xd": {
+          "type": "testimonial",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+            "name": "Alex R.",
+            "role": "Smart home enthusiast",
+            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
+          }
+        },
+        "testimonial_9a6MRk": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alex R.",
+            "role": "Smart home enthusiast",
+            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
           }
         }
       },
       "block_order": [
-        "heading",
-        "text"
+        "testimonial_jMKy93",
+        "testimonial_69U9xd",
+        "testimonial_9a6MRk"
       ],
+      "name": "Testimonials premium",
       "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
+        "heading": "Loved by modern households",
+        "subheading": "Premium smart home and wellness gadgets customers can feel and trust."
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
-      }
-    },
-    "collage": {
-      "type": "collage",
+    "stats_band_AUYx39": {
+      "type": "stats-band",
       "blocks": {
-        "collection-0": {
-          "type": "collection",
+        "stat_9kn7nR": {
+          "type": "stat",
           "settings": {
-            "collection": ""
+            "value": "10K+",
+            "label": "Happy smart homes"
           }
         },
-        "product": {
-          "type": "product",
+        "stat_TrPGWE": {
+          "type": "stat",
           "settings": {
-            "product": "",
-            "second_image": false
+            "value": "10K+",
+            "label": "Happy smart homes"
           }
         },
-        "collection-1": {
-          "type": "collection",
+        "stat_Fh6UjR": {
+          "type": "stat",
           "settings": {
-            "collection": ""
+            "value": "10K+",
+            "label": "Happy smart homes"
           }
         }
       },
       "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
+        "stat_9kn7nR",
+        "stat_TrPGWE",
+        "stat_Fh6UjR"
       ],
+      "name": "Stats band",
       "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "Your premium upgrade is one step away"
       }
     }
   },
   "order": [
-    "image_banner",
-    "rich_text",
-    "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
+    "premium_hero_iR7XeC",
+    "benefits_grid_THRbWp",
+    "trust_logos_m3RCy4",
+    "testimonials_premium_nJddy9",
+    "stats_band_AUYx39"
   ]
 }
