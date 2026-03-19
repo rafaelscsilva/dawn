@@ -1331,48 +1331,6 @@ class CartPerformance {
   }
 }
 
-// --- Dark theme toggle logic ---
-(function() {
-  const body = document.body;
-  const root = document.documentElement;
-  const THEME_KEY = 'theme-preference';
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
-  const labelEl = null;
-   if (!themeToggleBtn) return;
-
-  const getSystemTheme = () => (prefersDark.matches ? 'dark' : 'light');
-  const getStoredTheme = () => {
-    const stored = localStorage.getItem(THEME_KEY);
-    return stored === 'dark' || stored === 'light' ? stored : null;
-  };
-  const getActiveTheme = () => getStoredTheme() || getSystemTheme();
-
-  function applyTheme(theme) {
-    const mode = theme === 'dark' ? 'dark' : 'light';
-    root.dataset.theme = mode;
-    body.classList.remove('dark-theme', 'light-theme');
-    body.classList.add(`${mode}-theme`);
-    themeToggleBtn.setAttribute('aria-pressed', mode === 'dark');
-    if (labelEl) labelEl.textContent = mode === 'dark' ? 'Dark' : 'Light';
-  }
-
-  function setTheme(theme) {
-    localStorage.setItem(THEME_KEY, theme);
-    applyTheme(theme);
-  }
-
-  themeToggleBtn.addEventListener('click', function() {
-    const next = getActiveTheme() === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-  });
-
-  prefersDark.addEventListener('change', function(event) {
-    if (!getStoredTheme()) applyTheme(event.matches ? 'dark' : 'light');
-  });
-
-  applyTheme(getActiveTheme());
-})();
 
 // --- Floating scroll-to-top button ---
 (function() {
