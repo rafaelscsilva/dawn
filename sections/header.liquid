@@ -277,7 +277,8 @@
 
       <!-- Dark mode toggle button in header bar -->
       <button id="theme-toggle-btn" class="theme-toggle-btn header__icon" title="Toggle dark mode" type="button" aria-pressed="false">
-        <span class="svg-wrapper theme-toggle-btn__icon" data-theme-toggle-icon>{{ 'icon-moon.svg' | inline_asset_content }}</span>
+        <span class="svg-wrapper theme-toggle-btn__icon theme-toggle-btn__icon--moon" data-theme-toggle-icon>{{ 'icon-moon.svg' | inline_asset_content }}</span>
+        <span class="svg-wrapper theme-toggle-btn__icon theme-toggle-btn__icon--sun" aria-hidden="true">{{ 'icon-sun.svg' | inline_asset_content }}</span>
       </button>
     </div>
   </header>

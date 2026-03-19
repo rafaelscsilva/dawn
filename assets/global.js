@@ -1385,7 +1385,8 @@ class CartPerformance {
   document.body.appendChild(scrollBtn);
 
   function toggleScrollBtn() {
-    if (window.scrollY > 200) {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    if (scrollTop > 120) {
       scrollBtn.classList.add('is-visible');
     } else {
       scrollBtn.classList.remove('is-visible');
@@ -1397,5 +1398,6 @@ class CartPerformance {
   });
 
   window.addEventListener('scroll', toggleScrollBtn, { passive: true });
-  toggleScrollBtn();
+  window.addEventListener('load', toggleScrollBtn, { once: true });
+  requestAnimationFrame(toggleScrollBtn);
  })();
