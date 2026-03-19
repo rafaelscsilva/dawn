@@ -1,4 +1,17 @@
 :root {
+  /* Modern dark theme palette */
+  --color-background: 18, 18, 18; /* #121212 */
+  --color-foreground: 235, 235, 235; /* #ebebeb */
+  --color-link: 100, 210, 255; /* #64d2ff */
+  --color-shadow: 0, 0, 0; /* black for shadows */
+  --color-accent: 40, 150, 255; /* #2896ff */
+  --color-border: 60, 60, 60; /* #3c3c3c */
+  --color-card: 28, 28, 30; /* #1c1c1e */
+  --color-secondary: 44, 44, 46; /* #2c2c2e */
+  --color-success: 76, 175, 80; /* #4caf50 */
+  --color-error: 244, 67, 54; /* #f44336 */
+  --color-warning: 255, 193, 7; /* #ffc107 */
+  --color-info: 33, 150, 243; /* #2196f3 */
   --alpha-button-background: 1;
   --alpha-button-border: 1;
   --alpha-link: 0.85;
@@ -8,70 +21,56 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
 
-.product-card-wrapper .card,
-.contains-card--product {
-  --border-radius: var(--product-card-corner-radius);
-  --border-width: var(--product-card-border-width);
-  --border-opacity: var(--product-card-border-opacity);
-  --shadow-horizontal-offset: var(--product-card-shadow-horizontal-offset);
-  --shadow-vertical-offset: var(--product-card-shadow-vertical-offset);
-  --shadow-blur-radius: var(--product-card-shadow-blur-radius);
-  --shadow-opacity: var(--product-card-shadow-opacity);
-  --shadow-visible: var(--product-card-shadow-visible);
-  --image-padding: var(--product-card-image-padding);
-  --text-alignment: var(--product-card-text-alignment);
+body, .shopify-challenge__container, .page-width, .content-container, .contains-content-container {
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
 }
 
-.collection-card-wrapper .card,
-.contains-card--collection {
-  --border-radius: var(--collection-card-corner-radius);
-  --border-width: var(--collection-card-border-width);
-  --border-opacity: var(--collection-card-border-opacity);
-  --shadow-horizontal-offset: var(--collection-card-shadow-horizontal-offset);
-  --shadow-vertical-offset: var(--collection-card-shadow-vertical-offset);
-  --shadow-blur-radius: var(--collection-card-shadow-blur-radius);
-  --shadow-opacity: var(--collection-card-shadow-opacity);
-  --shadow-visible: var(--collection-card-shadow-visible);
-  --image-padding: var(--collection-card-image-padding);
-  --text-alignment: var(--collection-card-text-alignment);
+/* Card backgrounds and border for dark mode */
+.card, .card__inner, .card--card, .card--standard, .card--media, .card--horizontal, .card--text {
+  background: rgb(var(--color-card));
+  color: rgb(var(--color-foreground));
+  border-color: rgb(var(--color-border));
 }
 
-.article-card-wrapper .card,
-.contains-card--article {
-  --border-radius: var(--blog-card-corner-radius);
-  --border-width: var(--blog-card-border-width);
-  --border-opacity: var(--blog-card-border-opacity);
-  --shadow-horizontal-offset: var(--blog-card-shadow-horizontal-offset);
-  --shadow-vertical-offset: var(--blog-card-shadow-vertical-offset);
-  --shadow-blur-radius: var(--blog-card-shadow-blur-radius);
-  --shadow-opacity: var(--blog-card-shadow-opacity);
-  --shadow-visible: var(--blog-card-shadow-visible);
-  --image-padding: var(--blog-card-image-padding);
-  --text-alignment: var(--blog-card-text-alignment);
+/* Buttons */
+button, .button, .shopify-payment-button__button {
+  background: rgb(var(--color-accent));
+  color: rgb(var(--color-background));
+  border-color: rgb(var(--color-border));
 }
 
-.contains-content-container,
-.content-container {
-  --border-radius: var(--text-boxes-radius);
-  --border-width: var(--text-boxes-border-width);
-  --border-opacity: var(--text-boxes-border-opacity);
-  --shadow-horizontal-offset: var(--text-boxes-shadow-horizontal-offset);
-  --shadow-vertical-offset: var(--text-boxes-shadow-vertical-offset);
-  --shadow-blur-radius: var(--text-boxes-shadow-blur-radius);
-  --shadow-opacity: var(--text-boxes-shadow-opacity);
-  --shadow-visible: var(--text-boxes-shadow-visible);
+/* Links */
+a, .link {
+  color: rgb(var(--color-link));
 }
 
-.contains-media,
-.global-media-settings {
-  --border-radius: var(--media-radius);
-  --border-width: var(--media-border-width);
-  --border-opacity: var(--media-border-opacity);
-  --shadow-horizontal-offset: var(--media-shadow-horizontal-offset);
-  --shadow-vertical-offset: var(--media-shadow-vertical-offset);
-  --shadow-blur-radius: var(--media-shadow-blur-radius);
-  --shadow-opacity: var(--media-shadow-opacity);
-  --shadow-visible: var(--media-shadow-visible);
+a:hover, .link:hover {
+  color: rgb(var(--color-accent));
+}
+
+/* Inputs */
+input, textarea, select {
+  background: rgb(var(--color-secondary));
+  color: rgb(var(--color-foreground));
+  border-color: rgb(var(--color-border));
+}
+
+/* Notification, success, error, warning, info */
+.notification-success { background: rgba(var(--color-success), 0.15); color: rgb(var(--color-success)); }
+.notification-error { background: rgba(var(--color-error), 0.15); color: rgb(var(--color-error)); }
+.notification-warning { background: rgba(var(--color-warning), 0.15); color: rgb(var(--color-warning)); }
+.notification-info { background: rgba(var(--color-info), 0.15); color: rgb(var(--color-info)); }
+
+/* Slightly rounded product figures */
+.product-card-wrapper .card, .card, .card__inner, .card__media, .product-card-wrapper img, .card__media img {
+  border-radius: 0.8rem !important;
+  overflow: hidden;
+}
+
+/* Remove light backgrounds from secondary elements */
+.background-secondary, .content-container, .contains-content-container {
+  background: rgb(var(--color-secondary));
 }
 
 /* base */
