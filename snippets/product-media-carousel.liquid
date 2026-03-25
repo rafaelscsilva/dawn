@@ -39,11 +39,61 @@
       --pmc-aspect: {% if aspect_ratio_value == 'portrait' %}3 / 4{% else %}1 / 1{% endif %};
       --pmc-min-height: {% if aspect_ratio_value == 'portrait' %}150px{% else %}220px{% endif %};
       --pmc-min-height-desktop: {% if aspect_ratio_value == 'portrait' %}200px{% else %}320px{% endif %};
+      --pmc-thumb-size: 88px;
+      --pmc-thumb-gap: 0.75rem;
       background: #f9fafb;
       padding: 1.5rem;
       border-radius: var(--pmc-radius);
       box-shadow: var(--pmc-shadow);
       position: relative;
+    }
+    #pmc-{{ section.id }} .pmc__layout {
+      display: grid;
+      grid-template-columns: var(--pmc-thumb-size) 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    #pmc-{{ section.id }} .pmc__thumbs {
+      display: flex;
+      flex-direction: column;
+      gap: var(--pmc-thumb-gap);
+      overflow: auto;
+      padding: 0.25rem;
+      background: #fff;
+      border-radius: calc(var(--pmc-radius) - 4px);
+      box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.05);
+      max-height: 100%;
+    }
+    #pmc-{{ section.id }} .pmc__thumb {
+      border: none;
+      padding: 0;
+      background: none;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: calc(var(--pmc-radius) - 6px);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      outline-offset: 2px;
+    }
+    #pmc-{{ section.id }} .pmc__thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid transparent;
+      border-radius: inherit;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+      box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.06);
+    }
+    #pmc-{{ section.id }} .pmc__thumb.is-active::after {
+      border-color: #111;
+      box-shadow: inset 0 0 0 1px #111;
+    }
+    #pmc-{{ section.id }} .pmc__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     #pmc-{{ section.id }} .pmc__viewport {
       position: relative;
@@ -147,6 +197,13 @@
     }
     @media screen and (max-width: 749px) {
       #pmc-{{ section.id }} { padding: 1rem; }
+      #pmc-{{ section.id }} .pmc__layout { grid-template-columns: 1fr; gap: 0.75rem; }
+      #pmc-{{ section.id }} .pmc__thumbs {
+        flex-direction: row;
+        max-height: none;
+        width: 100%;
+      }
+      #pmc-{{ section.id }} .pmc__thumb { width: 72px; min-width: 72px; }
     }
     @media (prefers-reduced-motion: reduce) {
       #pmc-{{ section.id }} .pmc__track { transition: none; }
@@ -154,26 +211,45 @@
   </style>
 
   {% if medias.size > 0 %}
-    <div class="pmc__viewport" data-carousel-viewport>
-      <div class="pmc__track" data-carousel-track>
+    <div class="pmc__layout">
+      <div class="pmc__thumbs" data-carousel-thumbs>
         {%- for media in medias -%}
-          <div class="pmc__slide" data-index="{{ forloop.index0 }}">
-            <div class="pmc__media">
-              {% render 'product-media', media: media, loop: true, variant_image: media.attached_to_variant? %}
-            </div>
-          </div>
+          <button
+            class="pmc__thumb{% if forloop.index0 == 0 %} is-active{% endif %}"
+            type="button"
+            data-thumb-index="{{ forloop.index0 }}"
+            aria-label="{{ 'accessibility.go_to_slide' | t: slide: forloop.index }}"
+            aria-current="{% if forloop.index0 == 0 %}true{% else %}false{% endif %}"
+          >
+            <img
+              src="{{ media.preview_image | image_url: width: 200 }}"
+              alt="{{ media.alt | escape }}"
+              loading="lazy"
+            >
+          </button>
         {%- endfor -%}
       </div>
-      {% if show_arrows and medias.size > 1 %}
-        <div class="pmc__arrows" aria-hidden="true">
-          <button class="pmc__arrow" type="button" data-dir="prev" aria-label="{{ 'accessibility.previous' | t }}">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.5 5 7 9.5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="pmc__arrow" type="button" data-dir="next" aria-label="{{ 'accessibility.next' | t }}">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 5 13 9.5l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+      <div class="pmc__viewport" data-carousel-viewport>
+        <div class="pmc__track" data-carousel-track>
+          {%- for media in medias -%}
+            <div class="pmc__slide" data-index="{{ forloop.index0 }}">
+              <div class="pmc__media">
+                {% render 'product-media', media: media, loop: true, variant_image: media.attached_to_variant? %}
+              </div>
+            </div>
+          {%- endfor -%}
         </div>
-      {% endif %}
+        {% if show_arrows and medias.size > 1 %}
+          <div class="pmc__arrows" aria-hidden="true">
+            <button class="pmc__arrow" type="button" data-dir="prev" aria-label="{{ 'accessibility.previous' | t }}">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.5 5 7 9.5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="pmc__arrow" type="button" data-dir="next" aria-label="{{ 'accessibility.next' | t }}">
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 5 13 9.5l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        {% endif %}
+      </div>
     </div>
 
     {% if show_dots and medias.size > 1 %}
@@ -208,6 +284,7 @@
     const dots = Array.from(section.querySelectorAll('[data-dot-index]'));
     const prevBtn = section.querySelector('[data-dir="prev"]');
     const nextBtn = section.querySelector('[data-dir="next"]');
+    const thumbs = Array.from(section.querySelectorAll('[data-thumb-index]'));
 
     let index = 0;
     const total = slides.length;
@@ -230,6 +307,12 @@
         const active = i === index;
         dot.classList.toggle('is-active', active);
         dot.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      thumbs.forEach((thumb, i) => {
+        const active = i === index;
+        thumb.classList.toggle('is-active', active);
+        thumb.setAttribute('aria-current', active ? 'true' : 'false');
+        thumb.tabIndex = active ? 0 : -1;
       });
     };
 
@@ -260,6 +343,13 @@
     dots.forEach((dot) => {
       dot.addEventListener('click', () => {
         const target = Number(dot.dataset.dotIndex);
+        goTo(target);
+      });
+    });
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        const target = Number(thumb.dataset.thumbIndex);
         goTo(target);
       });
     });
