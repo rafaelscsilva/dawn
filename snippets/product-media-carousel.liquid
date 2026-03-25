@@ -1,0 +1,312 @@
+{% comment %}
+  Product Media Carousel snippet
+  - Uses single-view carousel with autoplay, arrows, dots, swipe, keyboard nav
+  - Renders media through the existing 'product-media' snippet
+{% endcomment %}
+
+{% liquid
+  assign medias = product.media
+  assign enable_autoplay = enable_autoplay | default: true
+  assign autoplay_speed = autoplay_speed | default: 5
+  assign autoplay_speed_ms = autoplay_speed | times: 1000
+  assign transition_duration = transition_duration | default: 450
+  assign show_arrows = show_arrows | default: true
+  assign show_dots = show_dots | default: true
+  assign pause_on_hover = pause_on_hover | default: true
+  assign media_fit = media_fit | default: 'cover'
+  assign corner_radius = corner_radius | default: 16
+  assign soft_shadow = soft_shadow | default: true
+%}
+
+<div
+  id="pmc-{{ section.id }}"
+  class="pmc"
+  data-autoplay="{{ enable_autoplay }}"
+  data-autoplay-speed="{{ autoplay_speed_ms }}"
+  data-transition-duration="{{ transition_duration }}"
+  data-pause-hover="{{ pause_on_hover }}"
+  data-show-dots="{{ show_dots }}"
+  aria-label="{{ 'products.product.media' | t }}"
+>
+  <style>
+    #pmc-{{ section.id }} {
+      --pmc-radius: {{ corner_radius }}px;
+      --pmc-duration: {{ transition_duration }}ms;
+      --pmc-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --pmc-fit: {{ media_fit }};
+      --pmc-shadow: {% if soft_shadow %}0 20px 50px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.05){% else %}none{% endif %};
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: var(--pmc-radius);
+      box-shadow: var(--pmc-shadow);
+      position: relative;
+    }
+    #pmc-{{ section.id }} .pmc__viewport {
+      position: relative;
+      overflow: hidden;
+      border-radius: calc(var(--pmc-radius) - 4px);
+      aspect-ratio: 4 / 5;
+      background: #fff;
+      min-height: 320px;
+    }
+    @media screen and (min-width: 900px) {
+      #pmc-{{ section.id }} .pmc__viewport { aspect-ratio: 16 / 9; }
+    }
+    #pmc-{{ section.id }} .pmc__track {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      transition: transform var(--pmc-duration) var(--pmc-ease);
+      will-change: transform;
+    }
+    #pmc-{{ section.id }} .pmc__slide {
+      flex: 0 0 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      isolation: isolate;
+    }
+    #pmc-{{ section.id }} .pmc__media {
+      width: 100%;
+      height: 100%;
+    }
+    #pmc-{{ section.id }} .pmc__media img,
+    #pmc-{{ section.id }} .pmc__media video,
+    #pmc-{{ section.id }} .pmc__media model-viewer,
+    #pmc-{{ section.id }} .pmc__media .media,
+    #pmc-{{ section.id }} .pmc__media deferred-media {
+      width: 100%;
+      height: 100%;
+      object-fit: var(--pmc-fit);
+      border-radius: calc(var(--pmc-radius) - 6px);
+    }
+    #pmc-{{ section.id }} .pmc__arrows {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.75rem;
+      pointer-events: none;
+    }
+    #pmc-{{ section.id }} .pmc__arrow {
+      pointer-events: auto;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.65);
+      color: #111;
+      opacity: 0;
+      transition: opacity 180ms ease;
+      backdrop-filter: blur(8px);
+    }
+    #pmc-{{ section.id }}:hover .pmc__arrow,
+    #pmc-{{ section.id }} .pmc__arrow:focus-visible {
+      opacity: 1;
+    }
+    #pmc-{{ section.id }} .pmc__arrow svg {
+      width: 18px;
+      height: 18px;
+    }
+    #pmc-{{ section.id }} .pmc__dots {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    #pmc-{{ section.id }} .pmc__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.12);
+      transition: all 180ms ease;
+      border: none;
+      padding: 0;
+    }
+    #pmc-{{ section.id }} .pmc__dot.is-active {
+      width: 26px;
+      background: #111;
+    }
+    #pmc-{{ section.id }} .pmc__dot:focus-visible {
+      outline: 2px solid #111;
+      outline-offset: 2px;
+    }
+    @media (hover: none) {
+      #pmc-{{ section.id }} .pmc__arrow { opacity: 1; }
+    }
+    @media screen and (max-width: 749px) {
+      #pmc-{{ section.id }} { padding: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #pmc-{{ section.id }} .pmc__track { transition: none; }
+    }
+  </style>
+
+  {% if medias.size > 0 %}
+    <div class="pmc__viewport" data-carousel-viewport>
+      <div class="pmc__track" data-carousel-track>
+        {%- for media in medias -%}
+          <div class="pmc__slide" data-index="{{ forloop.index0 }}">
+            <div class="pmc__media">
+              {% render 'product-media', media: media, loop: true, variant_image: media.attached_to_variant? %}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      {% if show_arrows and medias.size > 1 %}
+        <div class="pmc__arrows" aria-hidden="true">
+          <button class="pmc__arrow" type="button" data-dir="prev" aria-label="{{ 'accessibility.previous' | t }}">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.5 5 7 9.5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="pmc__arrow" type="button" data-dir="next" aria-label="{{ 'accessibility.next' | t }}">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 5 13 9.5l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if show_dots and medias.size > 1 %}
+      <div class="pmc__dots" role="tablist" aria-label="{{ 'accessibility.slider_dots' | t }}">
+        {%- for media in medias -%}
+          <button
+            class="pmc__dot{% if forloop.index0 == 0 %} is-active{% endif %}"
+            data-dot-index="{{ forloop.index0 }}"
+            role="tab"
+            aria-label="{{ 'accessibility.go_to_slide' | t: slide: forloop.index }}"
+            aria-current="{% if forloop.index0 == 0 %}true{% else %}false{% endif %}"
+            type="button"
+          ></button>
+        {%- endfor -%}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="pmc__viewport" style="display:grid;place-items:center;">
+      <p>{{ 'products.product.media' | t }} unavailable</p>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  (() => {
+    const section = document.getElementById('pmc-{{ section.id }}');
+    if (!section) return;
+    const viewport = section.querySelector('[data-carousel-viewport]');
+    const track = section.querySelector('[data-carousel-track]');
+    if (!track) return;
+    const slides = Array.from(track.children);
+    const dots = Array.from(section.querySelectorAll('[data-dot-index]'));
+    const prevBtn = section.querySelector('[data-dir="prev"]');
+    const nextBtn = section.querySelector('[data-dir="next"]');
+
+    let index = 0;
+    const total = slides.length;
+    const autoplayEnabled = section.dataset.autoplay === 'true' && total > 1;
+    const pauseOnHover = section.dataset.pauseHover === 'true';
+    const autoplaySpeed = Number(section.dataset.autoplaySpeed) || 5000;
+    const transitionDuration = Number(section.dataset.transitionDuration) || 450;
+    let timer = null;
+    let pointerStartX = 0;
+    let pointerDiff = 0;
+    let isPointerDown = false;
+
+    const setTransition = (enabled) => {
+      track.style.transition = enabled ? `transform ${transitionDuration}ms cubic-bezier(0.25, 0.1, 0.25, 1)` : 'none';
+    };
+
+    const updateUI = () => {
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+      dots.forEach((dot, i) => {
+        const active = i === index;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    };
+
+    const goTo = (nextIndex, { skipTransition = false } = {}) => {
+      if (!total) return;
+      setTransition(!skipTransition);
+      index = (nextIndex + total) % total;
+      const offset = index * 100;
+      track.style.transform = `translateX(-${offset}%)`;
+      updateUI();
+      resetTimer();
+    };
+
+    const next = () => goTo(index + 1);
+    const prev = () => goTo(index - 1);
+
+    const resetTimer = () => {
+      if (!autoplayEnabled) return;
+      clearInterval(timer);
+      timer = setInterval(next, autoplaySpeed);
+    };
+
+    const pause = () => autoplayEnabled && clearInterval(timer);
+
+    if (nextBtn) nextBtn.addEventListener('click', () => next());
+    if (prevBtn) prevBtn.addEventListener('click', () => prev());
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const target = Number(dot.dataset.dotIndex);
+        goTo(target);
+      });
+    });
+
+    if (pauseOnHover && viewport) {
+      viewport.addEventListener('mouseenter', pause);
+      viewport.addEventListener('mouseleave', resetTimer);
+    }
+
+    // Keyboard navigation
+    section.setAttribute('tabindex', '0');
+    section.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        next();
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        prev();
+      }
+    });
+
+    // Swipe / drag support
+    const onPointerDown = (event) => {
+      isPointerDown = true;
+      pointerStartX = event.clientX || event.touches?.[0]?.clientX || 0;
+      pointerDiff = 0;
+      pause();
+    };
+
+    const onPointerMove = (event) => {
+      if (!isPointerDown) return;
+      const currentX = event.clientX || event.touches?.[0]?.clientX || 0;
+      pointerDiff = currentX - pointerStartX;
+    };
+
+    const onPointerUp = () => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      const threshold = 50;
+      if (pointerDiff > threshold) prev();
+      else if (pointerDiff < -threshold) next();
+      resetTimer();
+    };
+
+    viewport?.addEventListener('pointerdown', onPointerDown, { passive: true });
+    viewport?.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerup', onPointerUp);
+    viewport?.addEventListener('touchstart', onPointerDown, { passive: true });
+    viewport?.addEventListener('touchmove', onPointerMove, { passive: true });
+    window.addEventListener('touchend', onPointerUp);
+
+    setTransition(true);
+    goTo(0, { skipTransition: true });
+    resetTimer();
+  })();
+</script>

@@ -76,7 +76,21 @@
   <div class="page-width">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
-        {% render 'product-media-gallery', variant_images: variant_images %}
+        {% if section.settings.media_display == 'carousel' %}
+          {% render 'product-media-carousel',
+            enable_autoplay: section.settings.carousel_enable_autoplay,
+            autoplay_speed: section.settings.carousel_autoplay_speed,
+            transition_duration: section.settings.carousel_transition_duration,
+            pause_on_hover: section.settings.carousel_pause_on_hover,
+            show_arrows: section.settings.carousel_show_arrows,
+            show_dots: section.settings.carousel_show_dots,
+            media_fit: section.settings.carousel_media_fit,
+            corner_radius: section.settings.carousel_corner_radius,
+            soft_shadow: section.settings.carousel_soft_shadow
+          %}
+        {% else %}
+          {% render 'product-media-gallery', variant_images: variant_images %}
+        {% endif %}
       </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <section
@@ -714,7 +728,9 @@
 
     {%- if product.media.size > 0 -%}
       <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+      {% if section.settings.media_display != 'carousel' %}
+        <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+      {% endif %}
     {%- endif -%}
 
     {%- if first_3d_model -%}
@@ -1870,7 +1886,7 @@
               "label": "t:sections.main-product.blocks.collapsible_tab.settings.icon.options__44.label"
             }
           ],
-          "default": "return",
+          "default": "truck",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.icon_2.label"
         },
         {
@@ -2104,6 +2120,88 @@
     {
       "type": "header",
       "content": "t:sections.main-product.settings.header.content"
+    },
+    {
+      "type": "select",
+      "id": "media_display",
+      "label": "Media display",
+      "default": "carousel",
+      "options": [
+        { "value": "carousel", "label": "Carousel" },
+        { "value": "gallery", "label": "Gallery" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Carousel",
+      "info": "Controls for the carousel option above."
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_enable_autoplay",
+      "default": true,
+      "label": "Carousel autoplay"
+    },
+    {
+      "type": "range",
+      "id": "carousel_autoplay_speed",
+      "label": "Carousel autoplay speed (seconds)",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "carousel_transition_duration",
+      "label": "Carousel transition duration (ms)",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "default": 450
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_pause_on_hover",
+      "default": true,
+      "label": "Pause carousel on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_show_arrows",
+      "default": true,
+      "label": "Show carousel arrows"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_show_dots",
+      "default": true,
+      "label": "Show carousel dots"
+    },
+    {
+      "type": "select",
+      "id": "carousel_media_fit",
+      "label": "Carousel image fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "carousel_corner_radius",
+      "label": "Carousel corner radius (px)",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_soft_shadow",
+      "default": true,
+      "label": "Enable soft shadow"
     },
     {
       "type": "select",
