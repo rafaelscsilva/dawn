@@ -70,7 +70,7 @@
           "settings": {
             "heading": "Dimensions",
             "icon": "ruler",
-            "content": "<p>{{ product.metafields.custom.dimensions | metafield_tag }}</p>",
+            "content": "<p>{{ product.metafields.custom.dimensions.value }}</p>",
             "page": ""
           }
         },
