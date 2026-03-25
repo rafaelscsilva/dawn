@@ -1,0 +1,198 @@
+{% comment %}
+  Premium single-column product page hero
+{% endcomment %}
+
+<product-info
+  id="MainProduct-{{ section.id }}"
+  class="premium-pdp section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+>
+  {{ 'section-premium-product.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+  {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+  {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+  {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+  {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+  {{ 'product-info.js' | asset_url | script_tag }}
+  {{ 'product-form.js' | asset_url | script_tag }}
+  <script src="{{ 'section-premium-product.js' | asset_url }}" defer></script>
+
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.8 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.8 | round: 0 }}px;
+    }
+    @media (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div class="premium-pdp__inner">
+    <div class="premium-pdp__hero">
+      <div class="premium-gallery" data-premium-gallery data-autoplay="{{ section.settings.autoplay_speed }}">
+        <div class="premium-gallery__viewport">
+          <div class="premium-gallery__track" data-gallery-track>
+            {%- for media in product.media -%}
+              <div class="premium-gallery__slide{% if forloop.first %} is-active{% endif %}" data-gallery-slide data-media-id="{{ media.id }}">
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    <img
+                      srcset="{{ media | image_url: width: 1100 }} 1x, {{ media | image_url: width: 2200 }} 2x"
+                      src="{{ media | image_url: width: 1100 }}"
+                      alt="{{ media.alt | escape }}"
+                      loading="lazy"
+                      data-premium-media-thumb="{{ media.id }}"
+                    >
+                  {%- when 'video' or 'external_video' -%}
+                    <deferred-media class="media" data-media-id="{{ media.id }}">
+                      <button class="deferred-media__poster" type="button">
+                        <span class="deferred-media__poster-button">{{ 'icon-play.svg' | inline_asset_content }}</span>
+                        <img src="{{ media.preview_image | image_url: width: 1100 }}" alt="{{ media.alt | escape }}" loading="lazy">
+                      </button>
+                      <template>
+                        {{ media | media_tag: image_size: '1100x', autoplay: true, loop: true, controls: true, preload: 'none' }}
+                      </template>
+                    </deferred-media>
+                  {%- when 'model' -%}
+                    <model-viewer
+                      class="media"
+                      data-media-id="{{ media.id }}"
+                      src="{{ media.sources.first.url }}"
+                      alt="{{ media.alt | escape }}"
+                      autoplay
+                      ar
+                      camera-controls
+                      loading="lazy"
+                    ></model-viewer>
+                  {%- else -%}
+                    {{ media | media_tag }}
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="premium-gallery__controls">
+            <button class="premium-gallery__arrow" type="button" aria-label="Previous" data-gallery-prev>
+              <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </button>
+            <button class="premium-gallery__arrow" type="button" aria-label="Next" data-gallery-next>
+              <span class="svg-wrapper" style="transform: rotate(180deg);">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+            </button>
+          </div>
+          <div class="premium-gallery__dots">
+            {%- for media in product.media -%}
+              <button class="premium-gallery__dot{% if forloop.first %} is-active{% endif %}" type="button" data-gallery-dot aria-label="Go to media {{ forloop.index }}"></button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="premium-pdp__card" data-premium-atc-anchor>
+        <h1 class="premium-pdp__title">{{ product.title | escape }}</h1>
+        <div class="premium-pdp__price" id="price-{{ section.id }}">
+          {%- render 'price', product: product, use_variant: true, show_badges: true -%}
+        </div>
+        {%- if product.metafields.reviews.rating.value -%}
+          <div class="premium-rating">
+            {{ 'icon-star.svg' | inline_asset_content }}
+            <span>{{ product.metafields.reviews.rating.value }} / 5</span>
+          </div>
+        {%- endif -%}
+        <p class="premium-pdp__subtext">{{ product.description | strip_html | truncatewords: 28 }}</p>
+
+        {%- assign product_form_id = 'premium-product-form-' | append: section.id -%}
+        {%- render 'product-variant-picker', product: product, block: { 'settings': { 'picker_type': 'button', 'swatch_shape': 'circle' }, 'shopify_attributes': '' }, product_form_id: product_form_id -%}
+
+        <div class="premium-meta-row">
+          <span class="svg-wrapper">{{ 'icon-truck.svg' | inline_asset_content }}</span>
+          <span>{{ section.settings.shipping_copy }}</span>
+        </div>
+
+        <product-form class="product-form" data-section-id="{{ section.id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="svg-wrapper">{{ 'icon-error.svg' | inline_asset_content }}</span>
+            <span class="product-form__error-message"></span>
+          </div>
+          {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <div class="product-form__quantity" aria-label="{{ 'products.product.quantity.label' | t }}" data-premium-quantity>
+              <label class="form__label" for="Quantity-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
+              <div class="quantity">
+                <button class="quantity__button" name="minus" type="button" data-change="-1">
+                  <span class="svg-wrapper">{{ 'icon-minus.svg' | inline_asset_content }}</span>
+                  <span class="visually-hidden">{{ 'products.product.quantity.decrease' | t }}</span>
+                </button>
+                <input
+                  class="quantity__input"
+                  type="number"
+                  name="quantity"
+                  id="Quantity-{{ section.id }}"
+                  value="1"
+                  min="1"
+                  aria-label="{{ 'products.product.quantity.input_label' | t }}"
+                  data-quantity-input
+                >
+                <button class="quantity__button" name="plus" type="button" data-change="1">
+                  <span class="svg-wrapper">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+                  <span class="visually-hidden">{{ 'products.product.quantity.increase' | t }}</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="premium-pdp__cta-stack">
+              <button id="ProductSubmitButton-{{ section.id }}" type="submit" name="add" class="button button--primary">
+                <span>{{ 'products.product.add_to_cart' | t }}</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+              {%- if section.settings.show_dynamic_checkout -%}
+                <div class="premium-pdp__express">{{ form | payment_button }}</div>
+              {%- endif -%}
+            </div>
+          {%- endform -%}
+        </product-form>
+
+        <div class="premium-trust-inline">
+          <div class="premium-trust-inline__item">
+            <span class="premium-trust-inline__icon svg-wrapper">{{ 'icon-lock.svg' | inline_asset_content }}</span>
+            <span>Secure checkout</span>
+          </div>
+          <div class="premium-trust-inline__item">
+            <span class="premium-trust-inline__icon svg-wrapper">{{ 'icon-truck.svg' | inline_asset_content }}</span>
+            <span>{{ section.settings.trust_shipping }}</span>
+          </div>
+          <div class="premium-trust-inline__item">
+            <span class="premium-trust-inline__icon svg-wrapper">{{ 'icon-check-mark.svg' | inline_asset_content }}</span>
+            <span>{{ section.settings.trust_returns }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% render 'premium-sticky-atc', product: product %}
+</product-info>
+
+{% schema %}
+{
+  "name": "Premium main product",
+  "settings": [
+    {"type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 4, "default": 28, "label": "Padding top"},
+    {"type": "range", "id": "padding_bottom", "min": 0, "max": 80, "step": 4, "default": 32, "label": "Padding bottom"},
+    {"type": "text", "id": "shipping_copy", "label": "Shipping line", "default": "Fast dispatch and tracked delivery."},
+    {"type": "text", "id": "trust_shipping", "label": "Trust shipping text", "default": "Fast, tracked delivery"},
+    {"type": "text", "id": "trust_returns", "label": "Trust returns text", "default": "30-day returns"},
+    {"type": "checkbox", "id": "show_dynamic_checkout", "label": "Show express checkout", "default": true},
+    {"type": "number", "id": "autoplay_speed", "label": "Gallery autoplay (ms)", "default": 5000}
+  ],
+  "presets": [
+    {"name": "Premium product"}
+  ]
+}
+{% endschema %}

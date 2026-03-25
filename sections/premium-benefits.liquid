@@ -1,0 +1,57 @@
+{% comment %}
+  Premium benefits grid
+{% endcomment %}
+
+{{ 'section-premium-product.css' | asset_url | stylesheet_tag }}
+
+<section class="premium-benefits" id="premium-benefits-{{ section.id }}">
+  <div class="premium-section__heading">{{ section.settings.heading }}</div>
+  <p class="premium-section__subtext">{{ section.settings.subtext }}</p>
+  <div class="premium-benefits__grid">
+    {%- for block in section.blocks -%}
+      <div class="premium-benefits__item" {{ block.shopify_attributes }}>
+        <div class="premium-benefits__icon">
+          {%- if block.settings.icon != blank -%}
+            <img src="{{ block.settings.icon | image_url: width: 72 }}" width="32" height="32" loading="lazy" alt="">
+          {%- else -%}
+            <span class="svg-wrapper">{{ 'icon-clipboard.svg' | inline_asset_content }}</span>
+          {%- endif -%}
+        </div>
+        <p class="premium-benefits__title">{{ block.settings.title }}</p>
+        <p class="premium-benefits__text">{{ block.settings.text }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Premium benefits",
+  "settings": [
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Designed for everyday excellence"},
+    {"type": "text", "id": "subtext", "label": "Subtext", "default": "Highlights your product's most compelling proof points."}
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {"type": "text", "id": "title", "label": "Title", "default": "Premium materials"},
+        {"type": "text", "id": "text", "label": "Description", "default": "Built to last with rigorously tested components."},
+        {"type": "image_picker", "id": "icon", "label": "Icon (optional)"}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Premium benefits",
+      "blocks": [
+        {"type": "benefit", "settings": {"title": "Modern design", "text": "Clean silhouette with purposeful lines."}},
+        {"type": "benefit", "settings": {"title": "Fast setup", "text": "Ready in minutes with guided steps."}},
+        {"type": "benefit", "settings": {"title": "Sustainable choice", "text": "Thoughtfully sourced materials."}}
+      ]
+    }
+  ]
+}
+{% endschema %}

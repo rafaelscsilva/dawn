@@ -1,0 +1,26 @@
+<div class="premium-sticky" data-premium-sticky>
+  <div class="premium-sticky__info">
+    <div class="premium-sticky__thumb">
+      <img
+        src="{{ product.featured_media | img_url: '200x' }}"
+        alt="{{ product.title | escape }}"
+        loading="lazy"
+        data-sticky-thumb
+      >
+    </div>
+    <div class="premium-sticky__meta">
+      <span class="premium-sticky__title">{{ product.title | truncate: 42 | escape }}</span>
+      <div class="premium-sticky__price" data-sticky-price>
+        {%- render 'price', product: product, use_variant: true, show_badges: false -%}
+      </div>
+    </div>
+  </div>
+  <div class="premium-sticky__cta">
+    <product-form class="product-form" data-section-id="{{ section.id }}">
+      {%- form 'product', product, id: 'premium-sticky-form-' | append: section.id, class: 'premium-sticky__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-sticky-variant>
+        <button type="submit" class="button button--primary">{{ 'products.product.add_to_cart' | t }}</button>
+      {%- endform -%}
+    </product-form>
+  </div>
+</div>

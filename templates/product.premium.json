@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product-premium",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 32,
+        "shipping_copy": "Fast dispatch and tracked delivery.",
+        "trust_shipping": "Fast, tracked delivery",
+        "trust_returns": "30-day returns",
+        "show_dynamic_checkout": true,
+        "autoplay_speed": 5000
+      }
+    },
+    "benefits": {
+      "type": "premium-benefits",
+      "settings": {
+        "heading": "Designed for everyday excellence",
+        "subtext": "Highlights your product's most compelling proof points."
+      },
+      "blocks": {
+        "benefit1": {
+          "type": "benefit",
+          "settings": {
+            "title": "Modern design",
+            "text": "Clean silhouette with purposeful lines."
+          }
+        },
+        "benefit2": {
+          "type": "benefit",
+          "settings": {
+            "title": "Fast setup",
+            "text": "Ready in minutes with guided steps."
+          }
+        },
+        "benefit3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Sustainable choice",
+            "text": "Thoughtfully sourced materials."
+          }
+        }
+      }
+    },
+    "trust": {
+      "type": "premium-trust",
+      "settings": {
+        "heading": "Shop with confidence",
+        "subtext": "Secure checkout, fast dispatch, and dedicated support."
+      },
+      "blocks": {
+        "badge1": {"type": "item", "settings": {"title": "Secure checkout", "text": "Encrypted payments for peace of mind"}},
+        "badge2": {"type": "item", "settings": {"title": "Fast shipping", "text": "Dispatched within 24-48 hours"}},
+        "badge3": {"type": "item", "settings": {"title": "Easy returns", "text": "30-day money-back promise"}},
+        "badge4": {"type": "item", "settings": {"title": "Support", "text": "Real humans ready to help"}}
+      }
+    },
+    "faq": {
+      "type": "premium-faq",
+      "settings": {
+        "heading": "Questions answered",
+        "subtext": "Quick details on shipping, returns, and product use."
+      },
+      "blocks": {
+        "faq1": {"type": "faq", "settings": {"question": "What is the return window?", "answer": "Try it for 30 days. If it is not a fit, start a return for a refund."}},
+        "faq2": {"type": "faq", "settings": {"question": "Do you offer support?", "answer": "Yes. Our support team responds within one business day."}},
+        "faq3": {"type": "faq", "settings": {"question": "Is it compatible with my setup?", "answer": "Check the specs above or chat with us to confirm compatibility."}}
+      }
+    },
+    "reviews": {
+      "type": "premium-reviews",
+      "settings": {
+        "heading": "Loved by customers",
+        "subtext": "Recent feedback from real buyers."
+      },
+      "blocks": {
+        "review1": {"type": "review", "settings": {"author": "Alex", "date": "March 2024", "rating": 5, "body": "Beautiful design, excellent quality, and arrived quickly."}},
+        "review2": {"type": "review", "settings": {"author": "Jordan", "date": "February 2024", "rating": 5, "body": "Setup was painless and the finish looks high-end."}}
+      }
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading": "Related products",
+        "columns_desktop": 4,
+        "image_ratio": "adapt",
+        "show_secondary_image": true,
+        "add_image_padding": false,
+        "show_vendor": false,
+        "show_rating": false
+      }
+    }
+  },
+  "order": ["main", "benefits", "trust", "faq", "reviews", "related"]
+}

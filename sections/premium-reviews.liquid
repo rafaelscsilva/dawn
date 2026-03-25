@@ -1,0 +1,56 @@
+{{ 'section-premium-product.css' | asset_url | stylesheet_tag }}
+
+<section class="premium-reviews" id="premium-reviews-{{ section.id }}">
+  <div class="premium-section__heading">{{ section.settings.heading }}</div>
+  <p class="premium-section__subtext">{{ section.settings.subtext }}</p>
+  <div class="premium-reviews__list">
+    {%- for block in section.blocks -%}
+      <article class="premium-reviews__card" {{ block.shopify_attributes }}>
+        <div class="premium-reviews__meta">
+          <span>{{ block.settings.author }}</span>
+          <span aria-hidden="true">•</span>
+          <span>{{ block.settings.date }}</span>
+        </div>
+        {%- if block.settings.rating > 0 -%}
+          <div class="premium-rating" aria-label="{{ block.settings.rating }} out of 5 stars">
+            {%- for i in (1..block.settings.rating) -%}
+              {{ 'icon-star.svg' | inline_asset_content }}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <p class="premium-reviews__body">{{ block.settings.body }}</p>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Premium reviews",
+  "settings": [
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Loved by customers"},
+    {"type": "text", "id": "subtext", "label": "Subtext", "default": "Recent feedback from real buyers."}
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {"type": "text", "id": "author", "label": "Author", "default": "Alex"},
+        {"type": "text", "id": "date", "label": "Date", "default": "March 2024"},
+        {"type": "range", "id": "rating", "label": "Rating", "min": 0, "max": 5, "step": 1, "default": 5},
+        {"type": "textarea", "id": "body", "label": "Body", "default": "Beautiful design, excellent quality, and arrived quickly."}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium reviews",
+      "blocks": [
+        {"type": "review"},
+        {"type": "review", "settings": {"author": "Jordan", "date": "February 2024", "body": "Setup was painless and the finish looks high-end."}}
+      ]
+    }
+  ]
+}
+{% endschema %}
