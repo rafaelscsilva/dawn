@@ -161,6 +161,9 @@ body {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   padding: 14px 20px;
   border-radius: var(--premium-radius-lg);
+  border: none;
+  outline: none;
+  text-decoration: none;
 }
 
 @media (max-width: 749px) {
