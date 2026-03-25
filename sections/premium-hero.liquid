@@ -47,9 +47,6 @@
     </div>
 
     <div class="premium-hero__image">
-      <div class="premium-hero__logo">
-        <img src="{{ 'logo.png' | asset_url }}" alt="Brand logo" loading="lazy">
-      </div>
       {% if section.settings.image != blank %}
         <picture>
           <source srcset="{{ section.settings.image | image_url: width: 1400 }}" media="(min-width: 990px)">
