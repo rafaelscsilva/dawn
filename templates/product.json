@@ -56,15 +56,6 @@
           "type": "description",
           "settings": {}
         },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Shipping & Returns",
-            "icon": "truck",
-            "content": "",
-            "page": ""
-          }
-        },
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
@@ -74,11 +65,29 @@
             "page": ""
           }
         },
+        "collapsible_tab_kXBrPd": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Instructions",
+            "icon": "lightning_bolt",
+            "content": "<p>{{ product.metafields.custom.instructions | metafield_tag }}</p>",
+            "page": ""
+          }
+        },
         "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Care Instructions",
+            "heading": "Care",
             "icon": "heart",
+            "content": "",
+            "page": ""
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "icon": "truck",
             "content": "",
             "page": ""
           }
@@ -99,9 +108,10 @@
         "quantity_selector",
         "buy_buttons",
         "description",
-        "collapsible-row-1",
         "collapsible-row-2",
+        "collapsible_tab_kXBrPd",
         "collapsible-row-3",
+        "collapsible-row-1",
         "share"
       ],
       "settings": {
