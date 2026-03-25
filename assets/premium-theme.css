@@ -172,14 +172,15 @@ body {
 .premium-hero__corner-cta:focus,
 .premium-hero__corner-cta:focus-visible {
   outline: none;
+  outline: none;
   border: none;
   text-decoration: none;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   background: var(--premium-ink);
   color: #fff;
 }
 
-@media (max-width: 749px) {
   .premium-hero__corner-cta {
     position: static;
     margin-top: 12px;
