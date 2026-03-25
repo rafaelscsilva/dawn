@@ -43,6 +43,11 @@
     if ratio == 0 or ratio == null or ratio == blank or ratio == ''
       assign ratio = 1
     endif
+    assign media_width = featured_media.width | default: 1200
+    assign media_height = featured_media.height
+    if media_height == 0 or media_height == null or media_height == blank or media_height == ''
+      assign media_height = media_width | divided_by: ratio
+    endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
     <div
@@ -82,8 +87,8 @@
                 {% unless lazy_load == false %}
                   loading="lazy"
                 {% endunless %}
-                width="{{ featured_media.width }}"
-                height="{{ featured_media.height }}"
+                width="{{ media_width }}"
+                height="{{ media_height }}"
               >
               {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
 
