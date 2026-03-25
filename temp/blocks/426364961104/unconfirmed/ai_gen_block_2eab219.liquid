@@ -1,6 +1,72 @@
+{% doc %}
+  @prompt
+    Add custom CSS to remove the color change and any visual effects (background color, border, outline) on the CTA button hover state in the hero section.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-custom-css-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  {% if block.settings.target_selector != blank %}
+    {{ block.settings.target_selector }}:hover {
+      background-color: inherit !important;
+      color: inherit !important;
+      border-color: inherit !important;
+      outline: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+    }
+  {% endif %}
+{% endstyle %}
+
+<div class="ai-custom-css-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.show_info %}
+    <div style="padding: 20px; background-color: #f3f3f3; border-radius: 4px; text-align: center; color: #121212; font-size: 14px;">
+      <p style="margin: 0;">Custom CSS applied to remove hover effects on: <strong>{{ block.settings.target_selector }}</strong></p>
+    </div>
+  {% endif %}
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Custom CSS override",
+  "settings": [
+    {
+      "type": "header",
+      "content": "CSS target"
+    },
+    {
+      "type": "text",
+      "id": "target_selector",
+      "label": "CSS selector",
+      "default": ".banner__buttons .button",
+      "info": "Enter the CSS selector for the element you want to target (e.g., .banner__buttons .button)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_info",
+      "label": "Show info message",
+      "default": false,
+      "info": "Display a message showing which selector is being targeted"
+    },
+    {
+      "type": "header",
+      "content": "Instructions"
+    },
+    {
+      "type": "paragraph",
+      "content": "This block removes all hover effects (color changes, background, border, outline, shadows, transforms) from the targeted element. Common selectors: .banner__buttons .button (hero CTA), .button (all buttons), .card__link (card links)."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom CSS override"
+    }
+  ]
+}
 {% endschema %}
