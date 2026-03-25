@@ -128,10 +128,10 @@ body {
 
 .premium-hero__image {
   position: relative;
-  border-radius: var(--premium-radius-lg);
+  border-radius: 0;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0);
-  box-shadow: var(--premium-shadow);
+  background: transparent;
+  box-shadow: none;
 }
 
 .premium-hero__image-placeholder {
@@ -139,7 +139,7 @@ body {
   aspect-ratio: 4 / 3;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0);
+  background: transparent;
 }
 
 .premium-hero__image-placeholder img {
