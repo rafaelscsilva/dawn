@@ -130,7 +130,7 @@ body {
   position: relative;
   border-radius: var(--premium-radius-lg);
   overflow: hidden;
-  background: #0b1018;
+  background: rgba(255, 255, 255, 0);
   box-shadow: var(--premium-shadow);
 }
 
