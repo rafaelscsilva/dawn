@@ -166,6 +166,15 @@ body {
   text-decoration: none;
 }
 
+.premium-hero__corner-cta:hover,
+.premium-hero__corner-cta:focus,
+.premium-hero__corner-cta:focus-visible {
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
 @media (max-width: 749px) {
   .premium-hero__corner-cta {
     position: static;
