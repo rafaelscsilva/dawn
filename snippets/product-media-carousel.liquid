@@ -16,6 +16,7 @@
   assign media_fit = media_fit | default: 'cover'
   assign corner_radius = corner_radius | default: 16
   assign soft_shadow = soft_shadow | default: true
+  assign aspect_ratio_value = aspect_ratio | default: 'square'
 %}
 
 <div
@@ -35,6 +36,9 @@
       --pmc-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
       --pmc-fit: {{ media_fit }};
       --pmc-shadow: {% if soft_shadow %}0 20px 50px rgba(0, 0, 0, 0.08), 0 10px 25px rgba(0, 0, 0, 0.05){% else %}none{% endif %};
+      --pmc-aspect: {% if aspect_ratio_value == 'portrait' %}3 / 4{% else %}1 / 1{% endif %};
+      --pmc-min-height: {% if aspect_ratio_value == 'portrait' %}150px{% else %}220px{% endif %};
+      --pmc-min-height-desktop: {% if aspect_ratio_value == 'portrait' %}200px{% else %}320px{% endif %};
       background: #f9fafb;
       padding: 1.5rem;
       border-radius: var(--pmc-radius);
@@ -45,14 +49,14 @@
       position: relative;
       overflow: hidden;
       border-radius: calc(var(--pmc-radius) - 4px);
-      aspect-ratio: 3 / 4;
+      aspect-ratio: var(--pmc-aspect);
       background: #fff;
-      min-height: 150px;
+      min-height: var(--pmc-min-height);
     }
     @media screen and (min-width: 900px) {
       #pmc-{{ section.id }} .pmc__viewport {
-        aspect-ratio: 3 / 4;
-        min-height: 200px;
+        aspect-ratio: var(--pmc-aspect);
+        min-height: var(--pmc-min-height-desktop);
       }
     }
     #pmc-{{ section.id }} .pmc__track {

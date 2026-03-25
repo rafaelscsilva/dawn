@@ -86,7 +86,8 @@
             show_dots: section.settings.carousel_show_dots,
             media_fit: section.settings.carousel_media_fit,
             corner_radius: section.settings.carousel_corner_radius,
-            soft_shadow: section.settings.carousel_soft_shadow
+            soft_shadow: section.settings.carousel_soft_shadow,
+            aspect_ratio: section.settings.carousel_aspect_ratio
           %}
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
@@ -2196,6 +2197,16 @@
         { "value": "contain", "label": "Contain" }
       ],
       "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "carousel_aspect_ratio",
+      "label": "Carousel aspect ratio",
+      "options": [
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (3:4)" }
+      ],
+      "default": "square"
     },
     {
       "type": "range",
