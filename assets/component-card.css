@@ -6,6 +6,7 @@
 }
 
 .card {
+  --image-padding: var(--product-card-image-padding, 1.6rem);
   text-decoration: none;
   text-align: var(--text-alignment);
 }
