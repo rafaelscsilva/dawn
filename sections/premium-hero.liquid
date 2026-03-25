@@ -62,7 +62,13 @@
           >
         </picture>
       {% else %}
-        <div style="padding: 46% 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), transparent 30%), #0f1115;"></div>
+        <div class="premium-hero__image-placeholder">
+          <img
+            src="{{ 'hero-image.png' | asset_url }}"
+            alt="Featured lifestyle placeholder"
+            loading="lazy"
+          >
+        </div>
       {% endif %}
     </div>
   </div>
