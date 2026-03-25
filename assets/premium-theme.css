@@ -39,6 +39,7 @@ body {
   align-items: center;
   overflow: hidden;
   box-shadow: var(--premium-shadow);
+  position: relative;
 }
 
 @media (max-width: 990px) {
@@ -150,6 +151,24 @@ body {
   height: auto;
   display: block;
   object-fit: contain;
+}
+
+.premium-hero__corner-cta {
+  position: absolute;
+  right: clamp(16px, 2vw, 28px);
+  bottom: clamp(16px, 2vw, 28px);
+  z-index: 2;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  padding: 14px 20px;
+  border-radius: var(--premium-radius-lg);
+}
+
+@media (max-width: 749px) {
+  .premium-hero__corner-cta {
+    position: static;
+    margin-top: 12px;
+    align-self: flex-end;
+  }
 }
 
 .premium-hero__image-placeholder {
