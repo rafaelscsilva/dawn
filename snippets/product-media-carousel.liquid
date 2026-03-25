@@ -137,6 +137,24 @@
       max-height: 100%;
       object-fit: var(--pmc-fit);
     }
+    #pmc-{{ section.id }} .pmc__media img,
+    #pmc-{{ section.id }} .pmc__media video,
+    #pmc-{{ section.id }} .pmc__media model-viewer,
+    #pmc-{{ section.id }} .pmc__media .media,
+    #pmc-{{ section.id }} .pmc__media deferred-media {
+      width: 100%;
+      height: 100%;
+      object-fit: var(--pmc-fit);
+      border-radius: calc(var(--pmc-radius) - 6px);
+    }
+    #pmc-{{ section.id }} .pmc__media img {
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: var(--pmc-fit) !important;
+      display: block;
+    }
     #pmc-{{ section.id }} .pmc__media .deferred-media,
     #pmc-{{ section.id }} .pmc__media deferred-media,
     #pmc-{{ section.id }} .pmc__media product-model {
