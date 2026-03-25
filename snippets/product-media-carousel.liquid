@@ -47,10 +47,13 @@
       border-radius: calc(var(--pmc-radius) - 4px);
       aspect-ratio: 4 / 5;
       background: #fff;
-      min-height: 320px;
+      min-height: 360px;
     }
     @media screen and (min-width: 900px) {
-      #pmc-{{ section.id }} .pmc__viewport { aspect-ratio: 16 / 9; }
+      #pmc-{{ section.id }} .pmc__viewport {
+        aspect-ratio: 4 / 5;
+        min-height: 520px;
+      }
     }
     #pmc-{{ section.id }} .pmc__track {
       display: flex;

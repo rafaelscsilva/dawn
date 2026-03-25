@@ -91,6 +91,12 @@
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
         {% endif %}
+        {% assign description_block = section.blocks | where: 'type', 'description' | first %}
+        {% if description_block and product.description != blank %}
+          <div class="product__description product__description--below-media rte quick-add-hidden" {{ description_block.shopify_attributes }}>
+            {{ product.description }}
+          </div>
+        {% endif %}
       </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <section
@@ -100,6 +106,9 @@
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
           {%- for block in section.blocks -%}
+            {%- if block.type == 'description' -%}
+              {%- continue -%}
+            {%- endif -%}
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
