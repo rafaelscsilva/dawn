@@ -59,10 +59,16 @@ body {
   letter-spacing: 0.02em;
 }
 
-.premium-hero__eyebrow svg,
-.premium-badge svg {
-  width: 18px;
-  height: 18px;
+.premium-hero__eyebrow--logo {
+  padding: 0;
+  background: none;
+}
+
+.premium-hero__eyebrow--logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .premium-hero h1 {

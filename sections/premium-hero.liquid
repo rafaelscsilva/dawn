@@ -15,12 +15,9 @@
 <div class="premium-section page-width">
   <div class="premium-hero color-{{ section.settings.color_scheme }}">
     <div class="premium-hero__copy">
-      {% if eyebrow != blank %}
-        <div class="premium-hero__eyebrow">
-          <span class="svg-wrapper">{{ 'icon-fire.svg' | inline_asset_content }}</span>
-          <span>{{ eyebrow }}</span>
-        </div>
-      {% endif %}
+      <div class="premium-hero__eyebrow premium-hero__eyebrow--logo">
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" loading="lazy">
+      </div>
 
       <h1 class="h0">{{ heading }}</h1>
       {% if subheading != blank %}
