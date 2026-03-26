@@ -40,6 +40,15 @@ body {
   overflow: hidden;
   box-shadow: var(--premium-shadow);
   position: relative;
+  /* Prevent cursor flickering when hovering non-interactive regions */
+  cursor: default;
+}
+
+/* Restore pointer cursor on all interactive children */
+.premium-hero a,
+.premium-hero button,
+.premium-hero [role="button"] {
+  cursor: pointer;
 }
 
 @media (max-width: 990px) {
@@ -99,30 +108,62 @@ body {
   padding: 14px 20px;
   font-weight: 700;
   letter-spacing: 0.01em;
-  transition: all 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  /* Suppress Dawn's ::after border-ring that causes the hover rectangle */
+  --border-opacity: 0;
+  --buttons-border-width: 0px;
+}
+
+/* Kill the Dawn ::after pseudo-element border ring entirely on premium buttons */
+.button--primary-premium::after,
+.button--ghost-premium::after,
+.button--primary-premium::before,
+.button--ghost-premium::before {
+  display: none !important;
+  content: none !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+/* Prevent Dawn's ::after overlay from catching pointer events and flickering the cursor */
+.premium-hero .button::after,
+.premium-hero .button::before {
+  pointer-events: none !important;
+  display: none !important;
+  content: none !important;
 }
 
 .button--primary-premium {
   background: var(--premium-ink);
   color: #fff;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+  border: none;
+  outline: none;
 }
 
-.button--primary-premium:hover {
+.button--primary-premium:hover,
+.button--primary-premium:focus,
+.button--primary-premium:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+  outline: none;
 }
 
 .button--ghost-premium {
   border: 1px solid rgba(15, 17, 21, 0.2);
   background: #fff;
   color: var(--premium-ink);
+  outline: none;
 }
 
-.button--ghost-premium:hover {
+.button--ghost-premium:hover,
+.button--ghost-premium:focus,
+.button--ghost-premium:focus-visible {
   border-color: var(--premium-ink);
   color: var(--premium-ink);
   transform: translateY(-1px);
+  outline: none;
+  box-shadow: none;
 }
 
 .premium-hero__meta {
@@ -166,6 +207,18 @@ body {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   appearance: none;
+  /* Suppress Dawn ::after border ring */
+  --border-opacity: 0;
+  --buttons-border-width: 0px;
+}
+
+/* Kill ::after ring on corner CTA */
+.premium-hero__corner-cta::after,
+.premium-hero__corner-cta::before {
+  display: none !important;
+  content: none !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
 }
 
 .premium-hero__corner-cta:hover,
@@ -179,11 +232,13 @@ body {
   color: #fff;
 }
 
+@media (max-width: 990px) {
   .premium-hero__corner-cta {
     position: static;
     margin-top: 12px;
     align-self: flex-end;
   }
+}
 
 .premium-hero__image-placeholder {
   width: 100%;
