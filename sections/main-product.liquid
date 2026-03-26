@@ -767,17 +767,21 @@
 <script>
   (() => {
     /**
-     * Prevent the page from scrolling when product accordion rows
-     * are opened or closed.
+     * Fix: product accordion rows causing page scroll on toggle.
      *
-     * Root cause: the browser natively scrolls the page to keep the
-     * focused <summary> in view after a <details> toggle. When the
-     * accordion is mid-page this causes an abrupt scroll-to-top jump.
+     * Root cause: the browser natively scrolls to keep the focused
+     * <summary> in view after a <details> toggle. This scroll fires
+     * asynchronously, after layout reflow (100-500 ms later), so
+     * requestAnimationFrame is too early to cancel it.
      *
-     * Fix: intercept the click, freeze scroll, let the DOM update,
-     * then restore the exact scroll position in the same frame.
-     * On close we additionally ensure the summary stays visible if
-     * it has scrolled above the viewport.
+     * Solution: call preventDefault() to prevent the browser from ever
+     * performing the native toggle + scroll. Manually toggle `open` and
+     * sync `aria-expanded` ourselves. The browser never scrolls because
+     * it never handled the click.
+     *
+     * We register in capture phase (capture:true) so our handler fires
+     * before global.js's bubble-phase handler, and stopImmediatePropagation
+     * prevents global.js from overwriting aria-expanded with a stale value.
      */
     function initAccordionScrollFix(root) {
       root.querySelectorAll('.product__accordion.accordion details summary').forEach((summary) => {
@@ -785,44 +789,39 @@
         summary.dataset.scrollFixed = '1';
 
         summary.addEventListener('click', (e) => {
+          // Prevent native <details> toggle → prevents native scroll-into-view.
+          e.preventDefault();
+          // Prevent global.js's bubble-phase handler from reading stale state.
+          e.stopImmediatePropagation();
+
           const details = summary.closest('details');
           const isOpen = details.hasAttribute('open');
-          const savedY = window.scrollY;
 
-          // Allow the default toggle to happen, then snap scroll back.
-          requestAnimationFrame(() => {
-            if (isOpen) {
-              // Accordion is closing: restore saved position so content
-              // collapsing upward doesn't pull the viewport up.
-              window.scrollTo({ top: savedY, behavior: 'instant' });
-            } else {
-              // Accordion is opening: the browser may have scrolled to
-              // keep the summary in view — restore our saved position.
-              window.scrollTo({ top: savedY, behavior: 'instant' });
+          // Manually toggle open state.
+          if (isOpen) {
+            details.removeAttribute('open');
+            summary.setAttribute('aria-expanded', 'false');
+          } else {
+            details.setAttribute('open', '');
+            summary.setAttribute('aria-expanded', 'true');
 
-              // Then, if the summary is now above the viewport (e.g. it
-              // was at the very bottom), gently scroll it back into view
-              // without jumping to the top.
-              requestAnimationFrame(() => {
-                const rect = summary.getBoundingClientRect();
-                if (rect.top < 0) {
-                  window.scrollBy({ top: rect.top - 16, behavior: 'smooth' });
-                }
-              });
+            // If the summary slipped above the viewport after content above
+            // it expanded, nudge it smoothly back into view.
+            const top = summary.getBoundingClientRect().top;
+            if (top < 0) {
+              window.scrollBy({ top: top - 16, behavior: 'smooth' });
             }
-          });
-        }, { capture: true });
+          }
+        }, true); // true = capture phase, fires before any bubble-phase handler
       });
     }
 
-    // Init on DOMContentLoaded (covers full page loads)
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => initAccordionScrollFix(document));
     } else {
       initAccordionScrollFix(document);
     }
 
-    // Also re-init when Shopify section is re-rendered in the theme editor
     document.addEventListener('shopify:section:load', (e) => initAccordionScrollFix(e.target));
   })();
 </script>
