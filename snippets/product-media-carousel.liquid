@@ -467,9 +467,31 @@
         thumb.classList.toggle('is-active', active);
         thumb.setAttribute('aria-current', active ? 'true' : 'false');
         thumb.tabIndex = active ? 0 : -1;
-        // Scroll active thumb into view inside the scrollable container
+        // Scroll the active thumb into view within its OWN container only.
+        // scrollIntoView() scrolls the entire page — we must not use it.
         if (active) {
-          thumb.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+          const container = thumb.parentElement;
+          if (!container) return;
+          const isHorizontal = getComputedStyle(container).flexDirection === 'row';
+          if (isHorizontal) {
+            // Horizontal row (mobile): scroll container left so thumb is visible.
+            const left = thumb.offsetLeft - container.offsetLeft;
+            const right = left + thumb.offsetWidth;
+            if (left < container.scrollLeft) {
+              container.scrollLeft = left;
+            } else if (right > container.scrollLeft + container.clientWidth) {
+              container.scrollLeft = right - container.clientWidth;
+            }
+          } else {
+            // Vertical column (desktop): scroll container top so thumb is visible.
+            const top = thumb.offsetTop - container.offsetTop;
+            const bottom = top + thumb.offsetHeight;
+            if (top < container.scrollTop) {
+              container.scrollTop = top;
+            } else if (bottom > container.scrollTop + container.clientHeight) {
+              container.scrollTop = bottom - container.clientHeight;
+            }
+          }
         }
       });
     };
@@ -494,6 +516,13 @@
     };
 
     const pause = () => autoplayEnabled && clearInterval(timer);
+
+    // Prevent mousedown on all carousel controls from moving page focus,
+    // which would trigger the browser's native scroll-into-view on the page.
+    const noFocusScroll = (e) => e.preventDefault();
+    [prevBtn, nextBtn, ...dots, ...thumbs].forEach((el) => {
+      if (el) el.addEventListener('mousedown', noFocusScroll);
+    });
 
     if (nextBtn) nextBtn.addEventListener('click', () => next());
     if (prevBtn) prevBtn.addEventListener('click', () => prev());
