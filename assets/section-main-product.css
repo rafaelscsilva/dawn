@@ -90,6 +90,25 @@ product-info {
   .product--thumbnail_slider .thumbnail-slider .thumbnail-list__item.slider__slide {
     width: 100%;
   }
+
+  /* Align thumbnail rail left of the main media without overflow */
+  .product--thumbnail .product__media-wrapper media-gallery,
+  .product--thumbnail_slider .product__media-wrapper media-gallery {
+    display: grid;
+    grid-template-columns: clamp(64px, 12vw, 104px) 1fr;
+    gap: 1.2rem;
+    align-items: start;
+  }
+
+  .product--thumbnail .product__media-wrapper media-gallery slider-component,
+  .product--thumbnail_slider .product__media-wrapper media-gallery slider-component {
+    min-width: 0;
+  }
+
+  .product--thumbnail .product__media-wrapper media-gallery slider-component.slider-mobile-gutter,
+  .product--thumbnail_slider .product__media-wrapper media-gallery slider-component.slider-mobile-gutter {
+    width: 100%;
+  }
 }
 
 @media screen and (min-width: 990px) {
