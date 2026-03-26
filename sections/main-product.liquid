@@ -764,6 +764,69 @@
   </div>
 </product-info>
 
+<script>
+  (() => {
+    /**
+     * Prevent the page from scrolling when product accordion rows
+     * are opened or closed.
+     *
+     * Root cause: the browser natively scrolls the page to keep the
+     * focused <summary> in view after a <details> toggle. When the
+     * accordion is mid-page this causes an abrupt scroll-to-top jump.
+     *
+     * Fix: intercept the click, freeze scroll, let the DOM update,
+     * then restore the exact scroll position in the same frame.
+     * On close we additionally ensure the summary stays visible if
+     * it has scrolled above the viewport.
+     */
+    function initAccordionScrollFix(root) {
+      root.querySelectorAll('.product__accordion.accordion details summary').forEach((summary) => {
+        if (summary.dataset.scrollFixed) return;
+        summary.dataset.scrollFixed = '1';
+
+        summary.addEventListener('click', (e) => {
+          const details = summary.closest('details');
+          const isOpen = details.hasAttribute('open');
+          const savedY = window.scrollY;
+
+          // Allow the default toggle to happen, then snap scroll back.
+          requestAnimationFrame(() => {
+            if (isOpen) {
+              // Accordion is closing: restore saved position so content
+              // collapsing upward doesn't pull the viewport up.
+              window.scrollTo({ top: savedY, behavior: 'instant' });
+            } else {
+              // Accordion is opening: the browser may have scrolled to
+              // keep the summary in view — restore our saved position.
+              window.scrollTo({ top: savedY, behavior: 'instant' });
+
+              // Then, if the summary is now above the viewport (e.g. it
+              // was at the very bottom), gently scroll it back into view
+              // without jumping to the top.
+              requestAnimationFrame(() => {
+                const rect = summary.getBoundingClientRect();
+                if (rect.top < 0) {
+                  window.scrollBy({ top: rect.top - 16, behavior: 'smooth' });
+                }
+              });
+            }
+          });
+        }, { capture: true });
+      });
+    }
+
+    // Init on DOMContentLoaded (covers full page loads)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => initAccordionScrollFix(document));
+    } else {
+      initAccordionScrollFix(document);
+    }
+
+    // Also re-init when Shopify section is re-rendered in the theme editor
+    document.addEventListener('shopify:section:load', (e) => initAccordionScrollFix(e.target));
+  })();
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
