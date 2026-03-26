@@ -138,7 +138,7 @@
         "carousel_aspect_ratio": "portrait",
         "carousel_corner_radius": 16,
         "carousel_soft_shadow": true,
-        "media_size": "large",
+        "media_size": "medium",
         "constrain_to_viewport": false,
         "media_fit": "cover",
         "gallery_layout": "stacked",
