@@ -92,6 +92,7 @@
         "benefit_dNze8M",
         "benefit_nxnL3r"
       ],
+      "disabled": true,
       "name": "Benefits grid",
       "settings": {
         "heading": "Why customers choose us",
@@ -119,6 +120,7 @@
         "logo_D8QczW",
         "logo_T6YjfJ"
       ],
+      "disabled": true,
       "name": "Trust logos",
       "settings": {
         "heading": "Featured by leading tech reviewers"
@@ -157,6 +159,7 @@
         "testimonial_69U9xd",
         "testimonial_9a6MRk"
       ],
+      "disabled": true,
       "name": "Testimonials premium",
       "settings": {
         "heading": "Loved by modern households",
@@ -193,6 +196,7 @@
         "stat_TrPGWE",
         "stat_Fh6UjR"
       ],
+      "disabled": true,
       "name": "Stats band",
       "settings": {
         "heading": "Your premium upgrade is one step away"
