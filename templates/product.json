@@ -168,10 +168,43 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "premium_reviews_f4Bm9d": {
+      "type": "premium-reviews",
+      "blocks": {
+        "review_8RUxXA": {
+          "type": "review",
+          "settings": {
+            "author": "Alex",
+            "date": "March 2024",
+            "rating": 5,
+            "body": "Beautiful design, excellent quality, and arrived quickly."
+          }
+        },
+        "review_hfbVPa": {
+          "type": "review",
+          "settings": {
+            "author": "Jordan",
+            "date": "February 2024",
+            "rating": 5,
+            "body": "Setup was painless and the finish looks high-end."
+          }
+        }
+      },
+      "block_order": [
+        "review_8RUxXA",
+        "review_hfbVPa"
+      ],
+      "name": "Premium reviews",
+      "settings": {
+        "heading": "Loved by customers",
+        "subtext": "Recent feedback from real buyers."
+      }
     }
   },
   "order": [
     "main",
+    "premium_reviews_f4Bm9d",
     "related-products"
   ]
 }
