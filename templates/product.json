@@ -156,40 +156,29 @@
         "padding_bottom": 12
       }
     },
-    "premium_reviews_f4Bm9d": {
-      "type": "premium-reviews",
+    "177465009291cfa461": {
+      "type": "apps",
       "blocks": {
-        "review_8RUxXA": {
-          "type": "review",
+        "judge_me_reviews_review_widget_rKXRp3": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "author": "Alex",
-            "date": "March 2024",
-            "rating": 5,
-            "body": "Beautiful design, excellent quality, and arrived quickly."
-          }
-        },
-        "review_hfbVPa": {
-          "type": "review",
-          "settings": {
-            "author": "Jordan",
-            "date": "February 2024",
-            "rating": 5,
-            "body": "Setup was painless and the finish looks high-end."
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
           }
         }
       },
       "block_order": [
-        "review_8RUxXA",
-        "review_hfbVPa"
+        "judge_me_reviews_review_widget_rKXRp3"
       ],
-      "name": "Premium reviews",
       "settings": {
-        "heading": "Loved by customers",
-        "subtext": "Recent feedback from real buyers."
+        "include_margins": true
       }
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -205,32 +194,11 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
-    },
-    "17746497895a0a70ef": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_qFj3iN": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "sample_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_qFj3iN"
-      ],
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
     "main",
-    "premium_reviews_f4Bm9d",
-    "related-products",
-    "17746497895a0a70ef"
+    "177465009291cfa461",
+    "related-products"
   ]
 }
