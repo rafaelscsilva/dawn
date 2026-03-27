@@ -14,7 +14,7 @@
       position: fixed;
       inset: 0;
       z-index: 99999;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       background: rgba(0, 0, 0, 0.88);
@@ -24,6 +24,10 @@
       pointer-events: none;
       transition: opacity 320ms cubic-bezier(0.4, 0, 0.2, 1);
       overscroll-behavior: contain;
+    }
+    /* Two-step open: display:flex first, then opacity via class */
+    #pmc-lightbox.pmc-lb--visible {
+      display: flex;
     }
     #pmc-lightbox.pmc-lb--open {
       opacity: 1;
@@ -194,6 +198,7 @@
   let current   = 0;
   let total     = 0;
   let isOpen    = false;
+  let savedScrollY = 0; // preserve page scroll position across open/close
 
   // Touch/swipe state
   let touchStartX   = 0;
@@ -258,22 +263,33 @@
     modal.addEventListener('touchstart', onTouchStart, { passive: true });
     modal.addEventListener('touchmove',  onTouchMove,  { passive: true });
     modal.addEventListener('touchend',   onTouchEnd);
+
+    // After the fade-out transition ends, switch display back to none
+    // so the backdrop-filter stacking context is fully removed from the DOM
+    // paint tree — this prevents it from trapping Judge.me review widgets,
+    // write-review modals, or any other third-party overlays.
+    modal.addEventListener('transitionend', (e) => {
+      if (e.propertyName === 'opacity' && !isOpen) {
+        modal.classList.remove('pmc-lb--visible');
+      }
+    });
   }
 
   // ─── Collect images from a carousel ───────────────────────────────────────
   function collectImages(carouselEl) {
-    const slideEls = Array.from(carouselEl.querySelectorAll('.pmc__slide'));
-    return slideEls.map((slide) => {
-      const img = slide.querySelector('img');
-      if (!img) return null;
-      return {
-        src:    img.src,
-        srcset: img.srcset || '',
-        alt:    img.alt   || '',
-        width:  img.naturalWidth  || img.width  || 1100,
-        height: img.naturalHeight || img.height || 1100,
-      };
-    }).filter(Boolean);
+    return Array.from(carouselEl.querySelectorAll('.pmc__slide'))
+      .map((slide) => {
+        const img = slide.querySelector('img');
+        if (!img) return null;
+        return {
+          src:    img.src,
+          srcset: img.srcset || '',
+          alt:    img.alt   || '',
+          width:  img.naturalWidth  || img.width  || 1100,
+          height: img.naturalHeight || img.height || 1100,
+        };
+      })
+      .filter(Boolean);
   }
 
   // ─── Populate track with slide elements ───────────────────────────────────
@@ -317,19 +333,26 @@
     updatePosition(true /* skipTransition */);
     updateUI();
 
-    modal.classList.add(OPEN_CLASS);
+    // Step 1: make it display:flex (not yet visible)
+    modal.classList.add('pmc-lb--visible');
     isOpen = true;
 
-    // Prevent background scroll
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
+    // Save scroll position then lock background scroll without jumping the page.
+    // Using position:fixed + top offset is the reliable cross-browser technique
+    // that Judge.me and other apps also use, so they don't fight each other.
+    savedScrollY = window.scrollY;
+    document.body.style.position   = 'fixed';
+    document.body.style.top        = `-${savedScrollY}px`;
+    document.body.style.width      = '100%';
+    document.body.style.overflowY  = 'scroll'; // keep scrollbar width so layout doesn't shift
 
     // Focus modal for keyboard nav
     modal.focus();
 
-    // Animate in the active image after a tiny delay (allows transition to start)
+    // Step 2: trigger fade-in on next frame
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
+        modal.classList.add(OPEN_CLASS);
         const activeImg = track.querySelector(`.pmc-lb__slide[data-lb-index="${current}"] .pmc-lb__img`);
         activeImg?.classList.add('pmc-lb__img--active');
       });
@@ -339,20 +362,25 @@
   // ─── Close ─────────────────────────────────────────────────────────────────
   function close() {
     if (!isOpen) return;
-    modal.classList.remove(OPEN_CLASS);
     isOpen = false;
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
 
-    // Reset zoom on close
+    // Restore scroll lock — exact inverse of what open() did
+    document.body.style.position  = '';
+    document.body.style.top       = '';
+    document.body.style.width     = '';
+    document.body.style.overflowY = '';
+    window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+
+    // Fade out — transitionend listener will remove pmc-lb--visible
+    modal.classList.remove(OPEN_CLASS);
+
+    // Reset zoom
     track.querySelectorAll('.pmc-lb__img--zoomed').forEach((img) => img.classList.remove('pmc-lb__img--zoomed'));
   }
 
   // ─── Navigate ──────────────────────────────────────────────────────────────
   function navigate(delta) {
     if (!total) return;
-
-    // Remove active class from current before sliding
     const prevImg = track.querySelector(`.pmc-lb__slide[data-lb-index="${current}"] .pmc-lb__img`);
     prevImg?.classList.remove('pmc-lb__img--active', 'pmc-lb__img--zoomed');
 
@@ -360,7 +388,6 @@
     updatePosition(false);
     updateUI();
 
-    // Animate the new active image in
     requestAnimationFrame(() => {
       const activeImg = track.querySelector(`.pmc-lb__slide[data-lb-index="${current}"] .pmc-lb__img`);
       activeImg?.classList.add('pmc-lb__img--active');
@@ -400,9 +427,9 @@
 
   // ─── Touch / swipe ─────────────────────────────────────────────────────────
   function onTouchStart(e) {
-    isTouching   = true;
-    touchStartX  = e.touches[0].clientX;
-    touchDeltaX  = 0;
+    isTouching  = true;
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
   }
   function onTouchMove(e) {
     if (!isTouching) return;
@@ -416,23 +443,27 @@
   }
 
   // ─── Wire up clicks on carousel slides ────────────────────────────────────
+  // Track which carousels already have a listener to prevent duplicates on re-init
+  const attached = new WeakSet();
+
   function attachToCarousel(carouselEl) {
+    // Guard: never attach to the lightbox modal itself (id starts with "pmc-")
+    if (carouselEl.id === MODAL_ID) return;
+    // Guard: prevent double-attaching on theme editor re-inits
+    if (attached.has(carouselEl)) return;
+    attached.add(carouselEl);
+
     carouselEl.addEventListener('click', (e) => {
-      // Only trigger on image clicks, not arrows/dots/thumbs
       const img = e.target.closest('.pmc__slide img');
       if (!img) return;
-
       const slide = img.closest('.pmc__slide');
       if (!slide) return;
-
       const startIndex = parseInt(slide.dataset.index ?? '0', 10);
       open(carouselEl, startIndex);
     });
 
-    // Cursor hint
-    carouselEl.querySelectorAll('.pmc__slide').forEach((slide) => {
-      const img = slide.querySelector('img');
-      if (img) img.style.cursor = 'zoom-in';
+    carouselEl.querySelectorAll('.pmc__slide img').forEach((img) => {
+      img.style.cursor = 'zoom-in';
     });
   }
 
