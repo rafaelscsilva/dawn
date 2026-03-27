@@ -597,8 +597,10 @@
     section._pmc = { goTo, getIndex: () => index };
 
     // ── Variant-to-carousel sync ───────────────────────────────────────────
-    // Listens for Dawn's PUB_SUB_EVENTS.variantChange (published by product-info.js).
-    // Payload shape: { data: { sectionId, html, variant } }
+    // constants.js and pubsub.js are loaded with `defer`, meaning they execute
+    // after the HTML is parsed but before DOMContentLoaded fires. This inline
+    // IIFE runs during HTML parsing — before defer scripts — so we must wait
+    // for DOMContentLoaded before touching subscribe / PUB_SUB_EVENTS.
     const goToMediaId = (mediaId) => {
       if (!mediaId) { goTo(0); return; }
       const slide = track.querySelector(`[data-media-id="${mediaId}"]`);
@@ -607,41 +609,32 @@
       if (!isNaN(targetIndex)) goTo(targetIndex);
     };
 
-    // Wait for pubsub helpers (constants.js + pubsub.js) which are loaded
-    // before this snippet executes (product-info.js is deferred, but these
-    // globals are inlined earlier in the page head).
-    const variantEventName =
-      (typeof PUB_SUB_EVENTS !== 'undefined' && PUB_SUB_EVENTS.variantChange) ||
-      'variant-change';
-
     let unsubscribeVariant;
 
-    if (typeof subscribe === 'function') {
-      // Dawn's internal pub/sub — preferred path.
-      unsubscribeVariant = subscribe(variantEventName, (payload) => {
-        // Payload can come in as { data: { variant } } (product-info.js) or
-        // as a CustomEvent-like object with a detail property (fallback).
-        const data = payload?.data || payload?.detail || payload;
-        const variant = data?.variant;
-        goToMediaId(variant?.featured_media?.id);
-      });
+    const initVariantSync = () => {
+      // By now all defer scripts (constants.js, pubsub.js, product-info.js) have run.
+      const eventName =
+        (typeof PUB_SUB_EVENTS !== 'undefined' && PUB_SUB_EVENTS.variantChange) ||
+        'variant-change';
+
+      if (typeof subscribe === 'function') {
+        unsubscribeVariant = subscribe(eventName, (payload) => {
+          // product-info.js publishes: { data: { sectionId, html, variant } }
+          const data = payload?.data || payload?.detail || payload;
+          goToMediaId(data?.variant?.featured_media?.id);
+        });
+      }
+    };
+
+    // DOMContentLoaded fires after all defer scripts have executed.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initVariantSync, { once: true });
     } else {
-      // Fallback: listen on the document for the native CustomEvent that
-      // some themes dispatch (e.g. variant:change or variant-change).
-      const handler = (e) => {
-        const variant = e.detail?.variant || e.detail;
-        goToMediaId(variant?.featured_media?.id);
-      };
-      document.addEventListener('variant:change', handler);
-      document.addEventListener('variant-change', handler);
-      unsubscribeVariant = () => {
-        document.removeEventListener('variant:change', handler);
-        document.removeEventListener('variant-change', handler);
-      };
+      // Page already parsed (e.g. theme editor section reload)
+      initVariantSync();
     }
 
-    // Cleanup when the theme editor unloads this section to avoid memory leaks
-    // and stale subscriptions in the Shopify customizer.
+    // Cleanup when the theme editor unloads this section to avoid memory leaks.
     document.addEventListener('shopify:section:unload', (e) => {
       if (e.detail?.sectionId !== '{{ section.id }}') return;
       unsubscribeVariant?.();
