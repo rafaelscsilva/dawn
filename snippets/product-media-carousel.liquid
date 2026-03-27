@@ -386,7 +386,7 @@
       <div class="pmc__viewport" data-carousel-viewport>
         <div class="pmc__track" data-carousel-track>
           {%- for media in medias -%}
-            <div class="pmc__slide" data-index="{{ forloop.index0 }}">
+            <div class="pmc__slide" data-index="{{ forloop.index0 }}" data-media-id="{{ media.id }}">
               <div class="pmc__media">
                 {% render 'product-media', media: media, loop: true, variant_image: media.attached_to_variant? %}
               </div>
@@ -592,5 +592,62 @@
     setTransition(true);
     goTo(0, { skipTransition: true });
     resetTimer();
+
+    // ── Expose the carousel API so external code can drive it ──────────────
+    section._pmc = { goTo, getIndex: () => index };
+
+    // ── Variant-to-carousel sync ───────────────────────────────────────────
+    // Listens for Dawn's PUB_SUB_EVENTS.variantChange (published by product-info.js).
+    // Payload shape: { data: { sectionId, html, variant } }
+    const goToMediaId = (mediaId) => {
+      if (!mediaId) { goTo(0); return; }
+      const slide = track.querySelector(`[data-media-id="${mediaId}"]`);
+      if (!slide) { goTo(0); return; }
+      const targetIndex = Number(slide.dataset.index);
+      if (!isNaN(targetIndex)) goTo(targetIndex);
+    };
+
+    // Wait for pubsub helpers (constants.js + pubsub.js) which are loaded
+    // before this snippet executes (product-info.js is deferred, but these
+    // globals are inlined earlier in the page head).
+    const variantEventName =
+      (typeof PUB_SUB_EVENTS !== 'undefined' && PUB_SUB_EVENTS.variantChange) ||
+      'variant-change';
+
+    let unsubscribeVariant;
+
+    if (typeof subscribe === 'function') {
+      // Dawn's internal pub/sub — preferred path.
+      unsubscribeVariant = subscribe(variantEventName, (payload) => {
+        // Payload can come in as { data: { variant } } (product-info.js) or
+        // as a CustomEvent-like object with a detail property (fallback).
+        const data = payload?.data || payload?.detail || payload;
+        const variant = data?.variant;
+        goToMediaId(variant?.featured_media?.id);
+      });
+    } else {
+      // Fallback: listen on the document for the native CustomEvent that
+      // some themes dispatch (e.g. variant:change or variant-change).
+      const handler = (e) => {
+        const variant = e.detail?.variant || e.detail;
+        goToMediaId(variant?.featured_media?.id);
+      };
+      document.addEventListener('variant:change', handler);
+      document.addEventListener('variant-change', handler);
+      unsubscribeVariant = () => {
+        document.removeEventListener('variant:change', handler);
+        document.removeEventListener('variant-change', handler);
+      };
+    }
+
+    // Cleanup when the theme editor unloads this section to avoid memory leaks
+    // and stale subscriptions in the Shopify customizer.
+    document.addEventListener('shopify:section:unload', (e) => {
+      if (e.detail?.sectionId !== '{{ section.id }}') return;
+      unsubscribeVariant?.();
+      clearInterval(timer);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('touchend', onPointerUp);
+    }, { once: false });
   })();
 </script>
