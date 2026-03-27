@@ -428,6 +428,21 @@
 </div>
 
 <script>
+  // ── Lightbox: load once, re-init on theme-editor section reload ───────────
+  if (!window.__pmcLightboxLoaded) {
+    window.__pmcLightboxLoaded = true;
+    var _lbScript = document.createElement('script');
+    _lbScript.src = {{ 'pmc-lightbox.js' | asset_url | json }};
+    document.head.appendChild(_lbScript);
+  }
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+      window.PmcLightbox && window.PmcLightbox.init();
+    }
+  });
+</script>
+
+<script>
   (() => {
     const section = document.getElementById('pmc-{{ section.id }}');
     if (!section) return;
