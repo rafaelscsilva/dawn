@@ -668,6 +668,10 @@ body {
    base.css box-shadow doesn't render at all */
 :root {
   --inputs-border-opacity: 0 !important;
+  /* Kill the ::after border ring on ALL .button elements globally */
+  --buttons-border-width: 0px !important;
+  --border-opacity: 0 !important;
+  --buttons-border-opacity: 0 !important;
 }
 
 /* Remove Dawn's dark ::after border ring on all field/select wrappers
