@@ -660,21 +660,95 @@ body {
 
 /* ═══════════════════════════════════════════════════════════
    GLOBAL INPUT / FIELD OVERRIDES
+   Dawn draws borders via ::after box-shadow on the .field /
+   .select wrapper — we override that, not the <input> itself.
    ═══════════════════════════════════════════════════════════ */
 
-.field__input,
-.select__select,
-.customer .field input {
-  border-radius: 10px !important;
-  border: 1px solid rgba(15, 17, 21, 0.12) !important;
-  transition: border-color 180ms ease, box-shadow 180ms ease !important;
+/* Zero out Dawn's native border opacity so the dark ring from
+   base.css box-shadow doesn't render at all */
+:root {
+  --inputs-border-opacity: 0 !important;
 }
 
+/* Remove Dawn's dark ::after border ring on all field/select wrappers
+   and replace with a single soft 1px line */
+.field::after,
+.select::after,
+.customer .field::after,
+.customer select::after,
+.localization-form__select::after {
+  box-shadow: 0 0 0 1px rgba(15, 17, 21, 0.1) !important;
+  border-radius: 10px !important;
+}
+
+/* Soft hover state */
+.field:hover::after,
+.select:hover::after,
+.customer .field:hover::after,
+.customer select:hover::after {
+  box-shadow: 0 0 0 1.5px rgba(15, 17, 21, 0.22) !important;
+  border-radius: 10px !important;
+}
+
+/* Focus state — subtle glow */
 .field__input:focus,
-.select__select:focus {
-  border-color: #0f1115 !important;
-  box-shadow: 0 0 0 3px rgba(15, 17, 21, 0.06) !important;
+.field__input:focus-visible,
+.select__select:focus,
+.select__select:focus-visible,
+.customer .field input:focus,
+.customer .field input:focus-visible,
+.customer select:focus {
+  box-shadow: 0 0 0 3px rgba(15, 17, 21, 0.08) !important;
   outline: none !important;
+}
+
+/* Round the actual inputs to match their wrappers */
+.field__input,
+.select__select,
+.customer .field input,
+.customer select {
+  border-radius: 10px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Fix border radius on the wrapper ::before (shadow layer) too */
+.field::before,
+.select::before,
+.customer .field::before,
+.customer select::before,
+.localization-form__select::before {
+  border-radius: 10px !important;
+}
+
+/* Newsletter input inside footer specifically */
+.footer__newsletter .field::after {
+  box-shadow: 0 0 0 1px rgba(15, 17, 21, 0.12) !important;
+  border-radius: 10px !important;
+}
+
+.footer__newsletter .field:hover::after {
+  box-shadow: 0 0 0 1.5px rgba(15, 17, 21, 0.22) !important;
+  border-radius: 10px !important;
+}
+
+/* Contact form fields */
+.contact--premium .field::after,
+.contact--premium .text-area::after {
+  box-shadow: 0 0 0 1px rgba(15, 17, 21, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+.contact--premium .field:hover::after,
+.contact--premium .text-area:hover::after {
+  box-shadow: 0 0 0 1.5px rgba(15, 17, 21, 0.22) !important;
+  border-radius: 12px !important;
+}
+
+/* Round the contact form input/textarea themselves */
+.contact--premium .field__input,
+.contact--premium textarea.field__input {
+  border-radius: 12px !important;
 }
 
 /* ═══════════════════════════════════════════════════════════

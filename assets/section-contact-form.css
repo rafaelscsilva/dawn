@@ -62,19 +62,12 @@
 .contact--premium .field__input,
 .contact--premium .text-area {
   border-radius: 12px !important;
-  border: 1px solid rgba(15, 17, 21, 0.12) !important;
   padding: 14px 16px !important;
   font-size: 1.5rem;
   transition: border-color 180ms ease, box-shadow 180ms ease;
   background: #fff;
 }
 
-.contact--premium .field__input:focus,
-.contact--premium .text-area:focus {
-  border-color: #0f1115 !important;
-  box-shadow: 0 0 0 3px rgba(15, 17, 21, 0.06) !important;
-  outline: none;
-}
 
 .contact--premium .field__label {
   left: 16px;
