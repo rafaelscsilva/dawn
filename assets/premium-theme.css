@@ -525,3 +525,262 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   PRODUCT PAGE — Quantity Selector, ATC & Buy Now Buttons
+   ═══════════════════════════════════════════════════════════ */
+
+/* Quantity selector — pill shape, clean */
+.quantity {
+  border-radius: 12px !important;
+  border: 1px solid rgba(15, 17, 21, 0.12) !important;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  height: 50px;
+}
+
+.quantity__button {
+  background: transparent !important;
+  border: none !important;
+  width: 44px !important;
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--premium-ink) !important;
+  transition: background 160ms ease !important;
+  cursor: pointer;
+}
+
+.quantity__button:hover {
+  background: rgba(15, 17, 21, 0.04) !important;
+}
+
+.quantity__button:active {
+  background: rgba(15, 17, 21, 0.08) !important;
+}
+
+.quantity__input {
+  border: none !important;
+  background: transparent !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+  color: var(--premium-ink) !important;
+  width: 48px !important;
+  padding: 0 !important;
+  -moz-appearance: textfield;
+}
+
+.quantity__input::-webkit-inner-spin-button,
+.quantity__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Add to Cart button — primary, high-contrast */
+.product-form__submit {
+  border-radius: 14px !important;
+  padding: 16px 28px !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: 0.01em !important;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease !important;
+  background: #0f1115 !important;
+  color: #fff !important;
+  border: none !important;
+  /* suppress Dawn's ::after ring */
+  --border-opacity: 0 !important;
+  --buttons-border-width: 0px !important;
+}
+
+.product-form__submit::after,
+.product-form__submit::before {
+  display: none !important;
+  content: none !important;
+}
+
+.product-form__submit:hover:not([disabled]) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18) !important;
+}
+
+.product-form__submit:active:not([disabled]) {
+  transform: scale(0.98) !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12) !important;
+}
+
+.product-form__submit[disabled],
+.product-form__submit.disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+/* Buy Now / Shop Pay buttons — secondary style */
+.shopify-payment-button__button,
+.shopify-payment-button__button--branded {
+  border-radius: 14px !important;
+  transition: transform 180ms ease, box-shadow 180ms ease !important;
+}
+
+.shopify-payment-button__button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14) !important;
+}
+
+.shopify-payment-button__button:active {
+  transform: scale(0.98) !important;
+}
+
+/* More buy options link */
+.shopify-payment-button__more-options {
+  color: var(--premium-muted) !important;
+  font-size: 1.3rem !important;
+  text-decoration: underline !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL BUTTON OVERRIDES — Apply premium rounding to all
+   ═══════════════════════════════════════════════════════════ */
+
+.button:not(.button--primary-premium):not(.button--ghost-premium):not(.newsletter-form__button):not(.shopify-payment-button__button) {
+  border-radius: var(--premium-radius) !important;
+  transition: transform 180ms ease, box-shadow 180ms ease !important;
+  font-weight: 600 !important;
+}
+
+.button:not(.button--primary-premium):not(.button--ghost-premium):not(.newsletter-form__button):not(.shopify-payment-button__button):hover {
+  transform: translateY(-1px) !important;
+}
+
+.button:not(.button--primary-premium):not(.button--ghost-premium):not(.newsletter-form__button):not(.shopify-payment-button__button):active {
+  transform: scale(0.98) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL INPUT / FIELD OVERRIDES
+   ═══════════════════════════════════════════════════════════ */
+
+.field__input,
+.select__select,
+.customer .field input {
+  border-radius: 10px !important;
+  border: 1px solid rgba(15, 17, 21, 0.12) !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease !important;
+}
+
+.field__input:focus,
+.select__select:focus {
+  border-color: #0f1115 !important;
+  box-shadow: 0 0 0 3px rgba(15, 17, 21, 0.06) !important;
+  outline: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER — Clean multi-column, mission text
+   ═══════════════════════════════════════════════════════════ */
+
+.footer__content-top {
+  gap: clamp(24px, 4vw, 48px) !important;
+}
+
+.footer-block__details-content.rte p {
+  color: var(--premium-muted, #5b6573);
+  line-height: 1.65;
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.footer-block__heading {
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 16px !important;
+  color: var(--premium-ink, #0f1115) !important;
+  opacity: 0.6;
+}
+
+.footer__copyright {
+  gap: 10px !important;
+  flex-wrap: wrap;
+}
+
+.policies {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 4px 16px !important;
+  margin: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS BAND — Fade-in animation
+   ═══════════════════════════════════════════════════════════ */
+
+.stats-band__item {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: statFadeIn 500ms ease forwards;
+}
+
+.stats-band__item:nth-child(1) { animation-delay: 0ms; }
+.stats-band__item:nth-child(2) { animation-delay: 100ms; }
+.stats-band__item:nth-child(3) { animation-delay: 200ms; }
+.stats-band__item:nth-child(4) { animation-delay: 300ms; }
+
+@keyframes statFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-band__value {
+  font-size: clamp(24px, 3vw, 36px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1 !important;
+}
+
+.stats-band__label {
+  font-size: 1.3rem !important;
+  margin-top: 6px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BENEFITS GRID — Hover lift effect
+   ═══════════════════════════════════════════════════════════ */
+
+.benefits-card {
+  transition: transform 200ms ease, box-shadow 200ms ease !important;
+}
+
+.benefits-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 40px rgba(15, 17, 21, 0.08) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRODUCT PAGE — Variant pills premium styling
+   ═══════════════════════════════════════════════════════════ */
+
+.swatch-input__input + .swatch__label,
+.swatch-input__input + label {
+  border-radius: 8px !important;
+  transition: background 160ms ease, border-color 160ms ease !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CARDS — Global clean card radius
+   ═══════════════════════════════════════════════════════════ */
+
+.card--standard .card__inner,
+.card--media .card__inner {
+  border-radius: var(--premium-radius) !important;
+  overflow: hidden;
+}
+
+.card-wrapper a {
+  transition: opacity 180ms ease !important;
+}

@@ -65,38 +65,128 @@
         "benefit_93ErQD": {
           "type": "benefit",
           "settings": {
-            "title": "Fast, insured delivery",
-            "text": "Express shipping with real-time tracking on every order.",
-            "icon": "icon-delivery.svg"
+            "title": "Fast Worldwide Shipping",
+            "text": "Express delivery with real-time tracking on every order — straight to your door.",
+            "icon": "icon-box.svg"
           }
         },
         "benefit_dNze8M": {
           "type": "benefit",
           "settings": {
-            "title": "Fast, insured delivery",
-            "text": "Express shipping with real-time tracking on every order.",
-            "icon": "icon-delivery.svg"
+            "title": "30-Day Guarantee",
+            "text": "Not satisfied? Return any item within 30 days for a full, no-questions-asked refund.",
+            "icon": "icon-checkmark.svg"
           }
         },
         "benefit_nxnL3r": {
           "type": "benefit",
           "settings": {
-            "title": "Fast, insured delivery",
-            "text": "Express shipping with real-time tracking on every order.",
-            "icon": "icon-delivery.svg"
+            "title": "Premium Quality",
+            "text": "Every product is expert-tested and curated to meet the highest standards of performance.",
+            "icon": "icon-clipboard.svg"
+          }
+        },
+        "benefit_support": {
+          "type": "benefit",
+          "settings": {
+            "title": "Dedicated Support",
+            "text": "Our team is always here to help — before, during, and after your purchase.",
+            "icon": "icon-chat-bubble.svg"
           }
         }
       },
       "block_order": [
         "benefit_93ErQD",
         "benefit_dNze8M",
-        "benefit_nxnL3r"
+        "benefit_nxnL3r",
+        "benefit_support"
       ],
-      "disabled": true,
       "name": "Benefits grid",
       "settings": {
         "heading": "Why customers choose us",
         "subheading": "Curated smart tech, wellness gadgets, and everyday upgrades backed by expert testing."
+      }
+    },
+    "stats_band_AUYx39": {
+      "type": "stats-band",
+      "blocks": {
+        "stat_9kn7nR": {
+          "type": "stat",
+          "settings": {
+            "value": "10,000+",
+            "label": "Happy Customers"
+          }
+        },
+        "stat_TrPGWE": {
+          "type": "stat",
+          "settings": {
+            "value": "4.8★",
+            "label": "Average Rating"
+          }
+        },
+        "stat_Fh6UjR": {
+          "type": "stat",
+          "settings": {
+            "value": "30-Day",
+            "label": "Money-Back Guarantee"
+          }
+        },
+        "stat_shipping": {
+          "type": "stat",
+          "settings": {
+            "value": "Fast",
+            "label": "Worldwide Shipping"
+          }
+        }
+      },
+      "block_order": [
+        "stat_9kn7nR",
+        "stat_TrPGWE",
+        "stat_Fh6UjR",
+        "stat_shipping"
+      ],
+      "name": "Stats band",
+      "settings": {
+        "heading": "Your premium upgrade is one step away"
+      }
+    },
+    "testimonials_premium_nJddy9": {
+      "type": "testimonials-premium",
+      "blocks": {
+        "testimonial_jMKy93": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alex R.",
+            "role": "Smart home enthusiast",
+            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
+          }
+        },
+        "testimonial_69U9xd": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sarah M.",
+            "role": "Wellness advocate",
+            "body": "I was skeptical at first, but the 30-day guarantee gave me the confidence to try. I'm genuinely impressed."
+          }
+        },
+        "testimonial_9a6MRk": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Jordan T.",
+            "role": "Tech reviewer",
+            "body": "Fast shipping, beautiful packaging, and the product actually works as advertised. Highly recommend."
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_jMKy93",
+        "testimonial_69U9xd",
+        "testimonial_9a6MRk"
+      ],
+      "name": "Testimonials premium",
+      "settings": {
+        "heading": "Loved by modern households",
+        "subheading": "Premium smart home and wellness gadgets customers can feel and trust."
       }
     },
     "trust_logos_m3RCy4": {
@@ -125,90 +215,14 @@
       "settings": {
         "heading": "Featured by leading tech reviewers"
       }
-    },
-    "testimonials_premium_nJddy9": {
-      "type": "testimonials-premium",
-      "blocks": {
-        "testimonial_jMKy93": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Alex R.",
-            "role": "Smart home enthusiast",
-            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
-          }
-        },
-        "testimonial_69U9xd": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Alex R.",
-            "role": "Smart home enthusiast",
-            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
-          }
-        },
-        "testimonial_9a6MRk": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Alex R.",
-            "role": "Smart home enthusiast",
-            "body": "The quality feels premium and the setup was effortless. My daily routines are smoother already."
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_jMKy93",
-        "testimonial_69U9xd",
-        "testimonial_9a6MRk"
-      ],
-      "disabled": true,
-      "name": "Testimonials premium",
-      "settings": {
-        "heading": "Loved by modern households",
-        "subheading": "Premium smart home and wellness gadgets customers can feel and trust."
-      }
-    },
-    "stats_band_AUYx39": {
-      "type": "stats-band",
-      "blocks": {
-        "stat_9kn7nR": {
-          "type": "stat",
-          "settings": {
-            "value": "10K+",
-            "label": "Happy smart homes"
-          }
-        },
-        "stat_TrPGWE": {
-          "type": "stat",
-          "settings": {
-            "value": "10K+",
-            "label": "Happy smart homes"
-          }
-        },
-        "stat_Fh6UjR": {
-          "type": "stat",
-          "settings": {
-            "value": "10K+",
-            "label": "Happy smart homes"
-          }
-        }
-      },
-      "block_order": [
-        "stat_9kn7nR",
-        "stat_TrPGWE",
-        "stat_Fh6UjR"
-      ],
-      "disabled": true,
-      "name": "Stats band",
-      "settings": {
-        "heading": "Your premium upgrade is one step away"
-      }
     }
   },
   "order": [
     "premium_hero_iR7XeC",
     "featured_collection_8APGVJ",
     "benefits_grid_THRbWp",
-    "trust_logos_m3RCy4",
+    "stats_band_AUYx39",
     "testimonials_premium_nJddy9",
-    "stats_band_AUYx39"
+    "trust_logos_m3RCy4"
   ]
 }
