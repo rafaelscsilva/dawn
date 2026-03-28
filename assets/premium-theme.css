@@ -652,6 +652,7 @@ body {
 
 .button:not(.button--primary-premium):not(.button--ghost-premium):not(.newsletter-form__button):not(.shopify-payment-button__button):hover {
   transform: translateY(-1px) !important;
+  color: rgb(var(--color-button-text)) !important;
 }
 
 .button:not(.button--primary-premium):not(.button--ghost-premium):not(.newsletter-form__button):not(.shopify-payment-button__button):active {
