@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
@@ -16,14 +25,14 @@
           "type": "link_list",
           "settings": {
             "heading": "Policies",
-            "menu": "footer-policies"
+            "menu": "policies"
           }
         },
         "footer-2": {
           "type": "text",
           "settings": {
             "heading": "Our Mission",
-            "subtext": "<p>We believe everyone deserves access to technology that genuinely improves daily life. Every product we carry is hand-selected for quality, reliability, and impact — so you can upgrade your home and health with complete confidence.<\/p>"
+            "subtext": "<p>We believe everyone deserves access to technology that genuinely improves daily life. Every product we carry is hand-selected for quality, reliability, and impact — so you can upgrade your home and health with complete confidence.</p>"
           }
         }
       },
@@ -36,6 +45,7 @@
         "color_scheme": "scheme-1",
         "newsletter_enable": true,
         "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": false,
         "enable_language_selector": false,
