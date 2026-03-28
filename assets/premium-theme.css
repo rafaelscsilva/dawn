@@ -604,6 +604,14 @@ body {
 .product-form__submit:hover:not([disabled]) {
   transform: translateY(-2px) !important;
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18) !important;
+  background: #0f1115 !important;
+  color: #ffffff !important;
+}
+
+.product-form__submit:focus:not([disabled]),
+.product-form__submit:focus-visible:not([disabled]) {
+  color: #ffffff !important;
+  outline: none !important;
 }
 
 .product-form__submit:active:not([disabled]) {
@@ -652,6 +660,11 @@ body {
 
 .button:not(.button--primary-premium):not(.button--ghost-premium):not(.newsletter-form__button):not(.shopify-payment-button__button):hover {
   transform: translateY(-1px) !important;
+}
+
+/* Prevent the generic a:hover blue colour from bleeding into anchor-tag buttons (e.g. "View all") */
+a.button:hover,
+a.button:focus {
   color: rgb(var(--color-button-text)) !important;
 }
 
