@@ -9,8 +9,9 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/logov2.png",
     "logo_width": 90,
-    "favicon": "shopify://shop_images/favicon.png",
+    "favicon": "shopify://shop_images/faviconv2.png",
     "type_header_font": "assistant_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
