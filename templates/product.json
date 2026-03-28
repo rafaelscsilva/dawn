@@ -156,29 +156,8 @@
         "padding_bottom": 12
       }
     },
-    "177465009291cfa461": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_MYYrpe": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "sample_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_MYYrpe"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
     "related-products": {
       "type": "related-products",
-      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -194,11 +173,31 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "1774651343dc0559db": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_LCnmmX": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_LCnmmX"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "main",
-    "177465009291cfa461",
-    "related-products"
+    "related-products",
+    "1774651343dc0559db"
   ]
 }
